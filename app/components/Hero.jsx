@@ -2,14 +2,14 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <div className=" w-full h-[100dvh]  relative">
+    <div className="nunitosans w-full h-[100dvh]  relative">
       <div className=" w-full h-full flex flex-col px-10">
         <div className=" flex-1 flex justify-center items-center ">
           <div className="relative flex justify-center items-center w-full">
             <div className="flex-1">
-              <h1 className=" text-2xl sm:text-5xl lg:text-7xl font-light tracking-wide leading-tight">
+              <h1 className="text-2xl sm:text-5xl lg:text-7xl font-light tracking-wide leading-tight">
                 Commercial focused design <br />
-                led environments.
+                led <span className="newsreader font-light opacity-70">environments.</span>
               </h1>
               <div className="spacer h-[50px]"></div>
               <button className=" bg-blue-200  rounded-full min-w-[300px] py-4">

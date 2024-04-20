@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.inter{
-    font-family: var(--inter);
+.inter {
+  font-family: var(--inter);
 }
-.nunitosans{
-    font-family: var(--nunitosans);
+.nunitosans {
+  font-family: var(--nunitosans);
 }
-.newsreader{
-    font-family: var(--newsreader);
+.newsreader {
+  font-family: var(--newsreader);
 }
+
+

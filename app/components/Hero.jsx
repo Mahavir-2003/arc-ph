@@ -2,7 +2,7 @@ import React from "react";
 
 const Hero = () => {
   return (
-    <div className="nunitosans w-full h-[100dvh]  relative">
+    <div className="nunitosans w-full h-[100dvh] relative text-white">
       <div className=" w-full h-full flex flex-col px-10">
         <div className=" flex-1 flex justify-center items-center ">
           <div className="relative flex justify-center items-center w-full">

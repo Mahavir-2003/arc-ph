@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="flex flex-col gap-32 lg:flex-row justify-between items-center px-10 py-32 w-full ">
+    <div className="flex flex-col gap-32 lg:flex-row justify-between items-center px-10 py-32 w-full bg-white">
       <div className="flex flex-col w-full">
         <div className="text-4xl sm:text-5xl lg:text-7xl tracking-wide leading-tight">
           About
@@ -35,6 +35,7 @@ const About = () => {
           className="object-cover"
           layout="fill"
           src="https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="About us image"
         />
       </div>
     </div>

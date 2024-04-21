@@ -96,7 +96,7 @@ const Projects = () => {
                   objectFit="cover"
                   objectPosition="center"
                 />
-                <div className="absolute inset-0 bg-[#000]/50 flex justify-between items-end px-5 py-3 text-white">
+                <div className="absolute inset-0 bg-[#000]/50 flex justify-between items-end px-5 py-3 text-white hover:bg-transparent transition-all duration-700 ease-in-out">
                   <div className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wide leading-tight text-center">
                     {project.title}
                   </div>

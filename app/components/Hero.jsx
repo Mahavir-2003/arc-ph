@@ -3,10 +3,17 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
+const ProjectTitles = [
+  "Creative focused design led Environment",
+  "Commercial design led Creativity",
+  "Creative Freedom led Environment",
+  "Commercial development & design led Environment",
+];
+
 const Hero = () => {
   const ANIMATION_DURATION = 6; // duration of the fade in/out animations
   const FADE_IN_OUT_DURATION = 0.5; // duration of the fade in/out animations
-  const EASING = "sine.inOut"; // easing function for the animations
+  const EASING = "expoScale(0.5,7,none)"; // easing function for the animations
 
   const [counter, setCounter] = useState(0);
 
@@ -18,7 +25,17 @@ const Hero = () => {
       duration: FADE_IN_OUT_DURATION,
       opacity: 1,
       ease: EASING,
-      })
+    })
+      .to(
+        "#project-title",
+        {
+          duration: FADE_IN_OUT_DURATION,
+          opacity: 1,
+          y: 0,
+          ease: EASING,
+        },
+        `-=${FADE_IN_OUT_DURATION}`
+      )
       .to(`#image-${counter}`, {
         duration: ANIMATION_DURATION,
         opacity: 1,
@@ -29,21 +46,41 @@ const Hero = () => {
         duration: FADE_IN_OUT_DURATION,
         opacity: 0,
         ease: EASING,
-      }).set(`#image-${counter}`, {
+      })
+      .set(`#image-${counter}`, {
         scale: 1,
-      }).to(`#progress-${counter}`,{
-        x: 0,
-        duration: ANIMATION_DURATION + FADE_IN_OUT_DURATION,
-        ease: EASING,
-      }, `-=${ANIMATION_DURATION + FADE_IN_OUT_DURATION*2}`)
-      .to(`#progress-${counter}`,{
-        x : "-100%",
-        duration: FADE_IN_OUT_DURATION,
-        ease: EASING,
-        onComplete: () => {
-          setCounter((counter + 1) % totalImages);
+      })
+      .to(
+        `#progress-${counter}`,
+        {
+          x: 0,
+          duration: ANIMATION_DURATION + FADE_IN_OUT_DURATION,
+          ease: EASING,
         },
-      }, `-=${FADE_IN_OUT_DURATION}`)
+        `-=${ANIMATION_DURATION + FADE_IN_OUT_DURATION * 2}`
+      )
+      .to(
+        `#progress-${counter}`,
+        {
+          x: "-100%",
+          duration: FADE_IN_OUT_DURATION,
+          ease: EASING,
+          onComplete: () => {
+            setCounter((counter + 1) % totalImages);
+          },
+        },
+        `-=${FADE_IN_OUT_DURATION}`
+      )
+      .to(
+        "#project-title",
+        {
+          duration: FADE_IN_OUT_DURATION,
+          opacity: 0,
+          y: 20,
+          ease: EASING,
+        },
+        `-=${FADE_IN_OUT_DURATION}`
+      );
   };
 
   useEffect(() => {
@@ -87,11 +124,11 @@ const Hero = () => {
         <div className=" flex-1 flex justify-center items-center ">
           <div className="relative flex justify-center items-center w-full">
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-5xl lg:text-7xl font-light tracking-wide leading-tight max-w-[100%] md:max-w-[45%] ">
-                Commercial focused design led{" "}
-                <span className="newsreader font-light opacity-70">
-                  environments {counter}.
-                </span>
+              <h1
+                id="project-title"
+                className="text-2xl sm:text-5xl lg:text-7xl font-light tracking-wide leading-tight max-w-[100%] md:max-w-[45%] "
+              >
+                {ProjectTitles[counter]}
               </h1>
               <div className="spacer h-[50px]"></div>
               <button className=" bg-blue-200  rounded-full min-w-[300px] py-4">

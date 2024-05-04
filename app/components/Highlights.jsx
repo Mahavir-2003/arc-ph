@@ -3,11 +3,11 @@ import React from "react";
 const Highlights = () => {
   return (
     <main>
-      <div className="nunitosans flex flex-col sm:flex-col lg:gap-32 gap-10 lg:flex-row lg:justify-between lg:items-center px-10 py-32 w-full bg-white">
-        <div className="text-3xl sm:text-4xl lg:text-6xl tracking-wide leading-tight lg:w-1/2">
+      <div className="nunitosans flex flex-col sm:flex-col lg:gap-32 gap-10 lg:flex-row lg:justify-between lg:items-center px-10 py-40 w-full bg-white">
+        <div className="text-4xl sm:text-4xl lg:text-6xl tracking-wide leading-tight lg:w-1/2">
           Highlights
         </div>
-        <div className="text-left lg:flex-row flex flex-col sm:flex-col sm:w-full w-full lg:w-1/2 lg:gap-20 gap-10 font-light">
+        <div className="text-xl text-left lg:flex-row flex flex-col sm:flex-col sm:w-full w-full lg:w-1/2 lg:gap-20 gap-10 font-light">
           <div className="w-full md:w-1/2 tracking-wide leading-tight">
             We are pragmatic in our approach to design and handle each project
             in accordance with its particular set of requirements and

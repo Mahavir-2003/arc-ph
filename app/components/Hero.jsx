@@ -27,7 +27,7 @@ const Hero = () => {
       ease: EASING,
     })
       .to(
-        "#project-title",
+        "#project-title,#project-button",
         {
           duration: FADE_IN_OUT_DURATION,
           opacity: 1,
@@ -72,15 +72,17 @@ const Hero = () => {
         `-=${FADE_IN_OUT_DURATION}`
       )
       .to(
-        "#project-title",
+        "#project-title,#project-button",
         {
           duration: FADE_IN_OUT_DURATION,
           opacity: 0,
-          y: 20,
           ease: EASING,
         },
         `-=${FADE_IN_OUT_DURATION}`
-      );
+      ).set("#project-title", {
+        y: 20,
+        duration: 0,
+      });
   };
 
   useEffect(() => {
@@ -131,7 +133,7 @@ const Hero = () => {
                 {ProjectTitles[counter]}
               </h1>
               <div className="spacer h-[50px]"></div>
-              <button className=" bg-blue-200  rounded-full min-w-[300px] py-4">
+              <button id="project-button" className=" bg-blue-200  rounded-full min-w-[300px] py-4">
                 View Projects
               </button>
             </div>

@@ -119,7 +119,7 @@ const Hero = () => {
             layout="fill"
             objectFit="cover"
           />
-          <div className="mask bg-black/60 w-full h-full z-[1]"></div>
+          <div className="mask bg-black/70 w-full h-full z-[1]"></div>
         </div>
         <div className=" flex-1 flex justify-center items-center ">
           <div className="relative flex justify-center items-center w-full">
@@ -146,8 +146,8 @@ const Hero = () => {
         </div>
         <div className=" w-full pb-10 flex justify-center items-center ">
           <div className=" w-full flex justify-between items-center gap-x-4 md:gap-x-12 text-xs md:text-lg progress-indicators">
-            <div className=" flex-1">
-              <h2 className="  tracking-wide mb-3 font-light">Our Company</h2>
+            <div className=" flex-1 z-[2]">
+              <h2 className={`tracking-wide mb-3 font-normal text-white ${counter == 0 ? "opacity-100" : "opacity-50"}`}>Our Company</h2>
               <div className="relative w-full overflow-hidden h-[1px] rounded-full">
                 <div className=" bg-[#ffffff]/50 w-full h-full"></div>
                 <div
@@ -156,8 +156,8 @@ const Hero = () => {
                 ></div>
               </div>
             </div>
-            <div className=" flex-1">
-              <h2 className="  tracking-wide mb-3 font-light">Our Company</h2>
+            <div className=" flex-1 z-[2]">
+              <h2 className={`tracking-wide mb-3 font-normal text-white ${counter == 1 ? "opacity-100" : "opacity-50"}`}>Our Company</h2>
               <div className="relative w-full overflow-hidden h-[1px] rounded-full">
                 <div className=" bg-[#ffffff]/50 w-full h-full"></div>
                 <div
@@ -166,8 +166,8 @@ const Hero = () => {
                 ></div>
               </div>
             </div>
-            <div className=" flex-1">
-              <h2 className="  tracking-wide mb-3 font-light">Our Company</h2>
+            <div className=" flex-1 z-[2]">
+              <h2 className={`tracking-wide mb-3 font-normal text-white ${counter == 2 ? "opacity-100" : "opacity-50"}`}>Our Company</h2>
               <div className="relative w-full overflow-hidden h-[1px] rounded-full">
                 <div className=" bg-[#ffffff]/50 w-full h-full"></div>
                 <div
@@ -176,8 +176,8 @@ const Hero = () => {
                 ></div>
               </div>
             </div>
-            <div className=" flex-1">
-              <h2 className="  tracking-wide mb-3 font-light">Our Company</h2>
+            <div className=" flex-1 z-[2]">
+              <h2 className={`tracking-wide mb-3 font-normal text-white ${counter == 3 ? "opacity-100" : "opacity-50"}`}>Our Company</h2>
               <div className="relative w-full overflow-hidden h-[1px] rounded-full">
                 <div className=" bg-[#ffffff]/50 w-full h-full"></div>
                 <div

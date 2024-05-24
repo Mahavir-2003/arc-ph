@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="flex flex-col gap-32 lg:flex-row justify-between items-center px-10 py-32 w-full bg-white">
+    <div className="flex flex-col sm:gap-28 gap-10 lg:flex-row justify-between items-center px-10 py-10 sm:py-32 w-full bg-white">
       <div className="flex flex-col w-full">
         <div className="text-4xl sm:text-5xl lg:text-7xl tracking-wide leading-tight">
           About
@@ -20,7 +20,7 @@ const About = () => {
           new-build projects.
         </div>
         <div className="spacer h-[50px]"></div>
-        <div className="max-w-fit group">
+        {/* <div className="max-w-fit group">
           <Link href="#" className="text-xl tracking-widest">
             MEET THE TEAM
           </Link>
@@ -28,9 +28,9 @@ const About = () => {
             <div className="bg-[#fff] w-full h-full absolute top-0 left-0 -translate-x-[100%] group-hover:-translate-x-[0%] transition-all duration-500 ease-in-out"></div>
             <div className="bg-[#ffffff]/50 w-full h-full"></div>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className="bg-green-300 w-full h-[700px] relative">
+      <div className="w-full h-[500px] relative">
         <Image
           className="object-cover"
           layout="fill"

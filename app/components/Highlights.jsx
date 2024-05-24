@@ -2,7 +2,7 @@ import React from "react";
 
 const Highlights = () => {
   return (
-    <main>
+    <main className="">
       <div className="nunitosans flex flex-col sm:flex-col lg:gap-32 gap-10 lg:flex-row lg:justify-between lg:items-center px-10 py-40 w-full bg-white">
         <div className="text-4xl sm:text-4xl lg:text-6xl tracking-wide leading-tight lg:w-1/2">
           Highlights
@@ -24,7 +24,7 @@ const Highlights = () => {
           </div>
         </div>
       </div>
-      <div className="newsreader flex flex-col sm:flex-col md:flex-row lg:gap-32 gap-5 lg:flex-row lg:justify-around md:justify-around sm:justify-around lg:items-center px-10 bg-white">
+      <div className="newsreader flex flex-col sm:flex-col md:flex-row lg:gap-32 gap-5 lg:flex-row lg:justify-between md:justify-between sm:justify-between lg:items-center bg-white px-10 pb-40">
         <div className="text-left flex flex-col gap-2 border-t-2 border-black">
           <div className="text-4xl lg:text-7xl sm:text-5xl mt-5">30+</div>
           <div className="text-xl">Years of Experience</div>

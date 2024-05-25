@@ -16,6 +16,7 @@
 
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -33,9 +34,9 @@ export default function Home() {
           <p className="text-white text-7xl font-medium">
             New Site is in Development
           </p>
-          <button className="text-white text-2xl px-6 py-2 rounded-full border border-white transition duration-500 ease-in-out transform hover:bg-white hover:text-black shadow-lg hover:shadow-xl">
+          <Link href="/form" className='text-white text-2xl px-6 py-2 rounded-full border border-white transition duration-500 ease-in-out transform hover:bg-white hover:text-black shadow-lg hover:shadow-xl'>
             <p className=''>Schedule a call</p>
-          </button>
+          </Link>
         </div>
       </div>
     </main>

@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // allow cors for submit-form.com
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "https://submit-form.com",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import Image from "next/image";
@@ -26,6 +26,19 @@ export default function FormPage() {
   });
 
   const [errors, setErrors] = useState({});
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted)
+    return (
+      // show a loader
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 inter">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    );
 
   const handleSubmit = async (e) => {
     e.preventDefault();

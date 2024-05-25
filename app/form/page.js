@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { z } from "zod";
 import Image from "next/image";
+import Link from "next/link";
 
 // Validation schema using zod
 const schema = z.object({
@@ -80,7 +81,7 @@ export default function FormPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#121212] text-gray-100 inter">
+    <div className="min-h-screen flex items-center justify-center bg-[#191919] text-gray-100 inter">
       <Toaster />
       <div className=" p-8 rounded-xl max-w-4xl w-full flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-4 hidden md:block">
@@ -110,7 +111,7 @@ export default function FormPage() {
               value={formData.name}
               onChange={handleChange}
               placeholder="Name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
           </div>
@@ -127,7 +128,7 @@ export default function FormPage() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.email && (
               <p className="text-red-500 mt-1">{errors.email}</p>
@@ -146,7 +147,7 @@ export default function FormPage() {
               value={formData.number}
               onChange={handleChange}
               placeholder="Number"
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.number && (
               <p className="text-red-500 mt-1">{errors.number}</p>
@@ -164,7 +165,7 @@ export default function FormPage() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.date && <p className="text-red-500 mt-1">{errors.date}</p>}
           </div>
@@ -180,7 +181,7 @@ export default function FormPage() {
               name="time"
               value={formData.time}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
             {errors.time && <p className="text-red-500 mt-1">{errors.time}</p>}
           </div>
@@ -196,7 +197,7 @@ export default function FormPage() {
               value={formData.message}
               onChange={handleChange}
               placeholder="Message"
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#121212] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             ></textarea>
             {errors.message && (
               <p className="text-red-500 mt-1">{errors.message}</p>
@@ -209,6 +210,13 @@ export default function FormPage() {
             Submit
           </button>
         </form>
+      </div>
+      {/* add a contact team button at the end for any issues */}
+      <div className="absolute bottom-4 right-4 flex">
+        <p className="text-gray-100 pr-2">Need help?</p>
+        <Link href="mailto:yourteam@example.com" className="text-indigo-500">
+          Contact our team
+        </Link>
       </div>
     </div>
   );

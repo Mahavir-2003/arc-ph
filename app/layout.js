@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import { Newsreader } from "next/font/google";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { NextUIProvider } from "@nextui-org/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,7 +33,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${newsreader.variable} ${nunitosans.variable}`}
       >
-        {children}
+        <NextUIProvider>{children}</NextUIProvider>
       </body>
     </html>
   );

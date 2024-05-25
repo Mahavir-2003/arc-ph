@@ -1,32 +1,77 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { z } from "zod";
+import Image from "next/image";
+
+// Validation schema using zod
+const schema = z.object({
+  name: z.string().nonempty("Name is required"),
+  email: z.string().email("Invalid email address"),
+  number: z.string().nonempty("Number is required"),
+  date: z.string().nonempty("Date is required"),
+  time: z.string().nonempty("Time is required"),
+  message: z.string().nonempty("Message is required"),
+});
 
 export default function FormPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    number: "",
+    date: "",
+    time: "",
+    message: "",
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/submit-form', {
-        method: 'POST',
+      // Validate form data
+      schema.parse(formData);
+      setErrors({}); // Clear errors if validation passes
+
+      const response = await fetch("/api/submit-form", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        console.log('Form submitted successfully');
+        toast.success("Form submitted successfully");
+        setFormData({
+          name: "",
+          email: "",
+          number: "",
+          date: "",
+          time: "",
+          message: "",
+        });
+
+        // show toast after 1 second
+        setTimeout(() => {
+          toast.success(
+            `Call scheduled for ${formData.date} at ${formData.time}`
+          );
+        }, 1000);
       } else {
-        console.error('Error submitting form');
+        toast.error("Error submitting form");
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      if (error instanceof z.ZodError) {
+        const validationErrors = {};
+        error.errors.forEach((err) => {
+          validationErrors[err.path[0]] = err.message;
+        });
+        setErrors(validationErrors);
+      } else {
+        toast.error("Error submitting form");
+      }
     }
   };
 
@@ -35,28 +80,136 @@ export default function FormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Name"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-      />
-      <textarea
-        name="message"
-        value={formData.message}
-        onChange={handleChange}
-        placeholder="Message"
-      ></textarea>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-[#121212] text-gray-100 inter">
+      <Toaster />
+      <div className=" p-8 rounded-xl max-w-4xl w-full flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 p-4 hidden md:block">
+          <div className="w-full h-full relative">
+            <Image
+              className="object-cover rounded-xl"
+              layout="fill"
+              src="https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600"
+              alt="About us image"
+            />
+          </div>
+        </div>
+        <form onSubmit={handleSubmit} className="w-full md:w-1/2 p-4">
+          <h2 className="text-2xl font-bold mb-6 text-gray-100">
+            Schedule a Call
+          </h2>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Name
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Name"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Email
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.email && (
+              <p className="text-red-500 mt-1">{errors.email}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Number
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="text"
+              name="number"
+              value={formData.number}
+              onChange={handleChange}
+              placeholder="Number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.number && (
+              <p className="text-red-500 mt-1">{errors.number}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Date
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.date && <p className="text-red-500 mt-1">{errors.date}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Time
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="time"
+              name="time"
+              value={formData.time}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.time && <p className="text-red-500 mt-1">{errors.time}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-100">
+              Message
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Message"
+              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-xl shadow-sm placeholder-gray-400 bg-[#2b2b2b] text-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            ></textarea>
+            {errors.message && (
+              <p className="text-red-500 mt-1">{errors.message}</p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

@@ -9,18 +9,12 @@ import { Checkbox } from "@nextui-org/checkbox";
 const schema = z.object({
   name: z.string().nonempty("Name is required"),
   email: z.string().email("Invalid email address"),
-  // valid australian and indian phone number of valid length
   number: z
     .string()
-    .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/, {
-      message: "Invalid Australian phone number",
-    })
-    .or(
-      z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/, {
-        message: "Invalid Indian phone number",
-      })
-    )
-    .nonempty("Phone number is required"),
+    .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/)
+    .or(z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/))
+    .optional()
+    .refine((value) => value !== "", { message: "Phone number is required" }),
   date: z.string().nonempty("Date is required"),
   time: z.string().nonempty("Time is required"),
 });

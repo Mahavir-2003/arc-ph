@@ -16,4 +16,9 @@
   font-family: var(--arimo);
 }
 
+/* remove scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
 

@@ -13,9 +13,11 @@
 //     </main>
 //   );
 // }
-
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
+import Lenis from "lenis";
 
 const images = [
   {
@@ -45,6 +47,21 @@ const images = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    lenis.on("scroll", (e) => {
+      console.log(e);
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  }, []);
+
   return (
     <>
       <main className="inter bg-[#171717] min-h-screen">
@@ -58,8 +75,8 @@ export default function Home() {
           </Link>
         </nav>
         <div className="flex h-1/2 p-5">
-          <h1 className="text-3xl md:text-5xl lg:text-8xl font-bold text-white pt-24 pb-16 scale-y-100 tracking-wide">
-            Photography & Planning - Adelaide
+          <h1 className="text-3xl md:text-5xl lg:text-8xl font-semibold text-white pt-24 pb-16 tracking-wide scale-y-105">
+            Photography & Planning — Adelaide
           </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
@@ -88,15 +105,21 @@ export default function Home() {
         <div className="text-white text-xl font-medium p-5 right-0 text-right">
           ...
         </div>
-        <div className="p-5 flex flex-row justify-between">
-          <div>
-            <h1 className="text-8xl font-bold text-white">Services &#8211;</h1>
+        <div className="p-5 flex flex-col lg:flex-row md:flex-row justify-between">
+          <div className="w-[55%]">
+            <h1 className="text-4xl md:text-4xl lg:text-8xl font-bold text-white">
+              Services &#8211;
+            </h1>
           </div>
-          <div>
-            <div className="flex flex-col w-[75%]">
-              <h2 className="text-3xl font-semibold text-white">Photography</h2>
+          {/* spacer */}
+          <div className="h-10"></div>
+          <div className="w-full lg:w-[60%]">
+            <div className="flex flex-col w-full">
+              <h2 className="lg:text-4xl text-2xl font-semibold text-white">
+                Photography
+              </h2>
               <div className="h-5"></div>
-              <p className="text-white w-[90vh]">
+              <p className="text-white text-wrap text-sm lg:text-xl font-light">
                 Capture the essence of your property with our professional
                 photography services. From real estate to interior design, our
                 expert photographers highlight your property's best features,
@@ -106,12 +129,12 @@ export default function Home() {
             </div>
             <div className="h-[1px] bg-white w-full mt-10"></div>
             <div className="h-10"></div>
-            <div className="flex flex-col w-[75%]">
-              <h2 className="text-3xl font-semibold text-white">
+            <div className="flex flex-col w-full">
+              <h2 className="lg:text-4xl text-2xl font-semibold text-white">
                 Floor Plan 2D B/W
               </h2>
               <div className="h-5"></div>
-              <p className="text-white w-[90vh]">
+              <p className="text-white text-wrap text-sm lg:text-xl font-light">
                 Discover clarity in simplicity with our 2D black and white floor
                 plans. These plans offer a clear overview of your property's
                 structure, providing essential insights for renovations,
@@ -120,12 +143,12 @@ export default function Home() {
             </div>
             <div className="h-[1px] bg-white w-full mt-10"></div>
             <div className="h-10"></div>
-            <div className="flex flex-col w-[75%]">
-              <h2 className="text-3xl font-semibold text-white">
+            <div className="flex flex-col w-full">
+              <h2 className="lg:text-4xl text-2xl font-semibold text-white">
                 Floor Plan 2D Color
               </h2>
               <div className="h-5"></div>
-              <p className="text-white w-[90vh]">
+              <p className="text-white text-wrap text-sm lg:text-xl font-light">
                 Visualize your space with precision and vibrancy through our 2D
                 color floor plans. Each plan is meticulously crafted to showcase
                 your property's layout, offering clarity and detail that empower
@@ -134,12 +157,12 @@ export default function Home() {
             </div>
             <div className="h-[1px] bg-white w-full mt-10"></div>
             <div className="h-10"></div>
-            <div className="flex flex-col w-[75%]">
-              <h2 className="text-3xl font-semibold text-white">
+            <div className="flex flex-col w-full">
+              <h2 className="lg:text-4xl text-2xl font-semibold text-white">
                 Floor Plan 3D
               </h2>
               <div className="h-5"></div>
-              <p className="text-white w-[90vh]">
+              <p className="text-white text-wrap text-sm lg:text-xl font-light">
                 Step into immersive visualization with our 3D floor plans, where
                 spaces come to life in stunning detail. Experience your property
                 from every angle, whether you're planning renovations,
@@ -163,13 +186,15 @@ export default function Home() {
           </div>
         </div>
         {/* company profile */}
-        <div className="p-5 flex flex-row justify-between py-20">
+        <div className="p-5 flex flex-col lg:flex-row justify-between py-20">
           <div>
-            <h1 className="text-3xl font-bold text-white">ARCHI</h1>
+            <h1 className="lg:text-3xl text-2xl font-bold text-white">ARCHI</h1>
           </div>
+          {/* spacer */}
+          <div className="h-3"></div>
           <div>
             <div className="flex flex-col w-full">
-              <p className="text-white text-2xl font-semibold w-full">
+              <p className="text-white lg:text-2xl text-md font-normal w-full">
                 Visualize. Captivate. Elevate. Your property, our expertise.
               </p>
             </div>
@@ -183,7 +208,6 @@ export default function Home() {
             <p>Photography & Planning &#8211; Adelaide</p>
           </div>
           <div className="flex flex-col text-right text-md">
-            <p>ROHIT</p>
             <Link href="tel:0404098419">
               <p className="text-white">Contact</p>
             </Link>

@@ -14,9 +14,8 @@
 //   );
 // }
 
-
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -31,15 +30,17 @@ export default function Home() {
           quality={100}
         />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center flex flex-col items-center space-y-4">
-          <p className="text-white text-7xl font-medium">
+          <p className="text-white text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-7xl font-medium">
             New Site is in Development
           </p>
-          <Link href="/form" className='text-white text-2xl px-6 py-2 rounded-full border border-white transition duration-500 ease-in-out transform hover:bg-white hover:text-black shadow-lg hover:shadow-xl'>
-            <p className=''>Schedule a call</p>
+          <Link
+            href="/form"
+            className="text-white text-2xl px-6 py-2 rounded-full border border-white transition duration-500 ease-in-out transform hover:bg-white hover:text-black shadow-lg hover:shadow-xl"
+          >
+            <p className="">Schedule a call</p>
           </Link>
         </div>
       </div>
     </main>
   );
 }
-

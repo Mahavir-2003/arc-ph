@@ -37,7 +37,9 @@ export default function Home() {
             href="/form"
             className="text-white text-2xl px-6 py-2 rounded-full border border-white transition duration-500 ease-in-out transform hover:bg-white hover:text-black shadow-lg hover:shadow-xl"
           >
-            <p className="">Schedule a call</p>
+            <p className="text-xs sm:text-base md:text-base lg:text-xl xl:text-4xl font-medium">
+              Schedule a call
+            </p>
           </Link>
         </div>
       </div>

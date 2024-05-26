@@ -1,27 +1,34 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+
+const prodForm = "https://submit-form.com/hRJclpnkQ";
+const devForm = "https://submit-form.com/j3aa0XiL4";
 
 export async function POST(request) {
   try {
     const formData = await request.json();
-    console.log('Form data:', formData);
+    console.log("Form data:", formData);
 
-    // Process the form data as needed
-    // For example, you can send the form data to a third-party service like Formspark
-    const response = await fetch('https://submit-form.com/j3aa0XiL4', {
-      method: 'POST',
+    const response = await fetch(devForm, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     });
 
     if (response.ok) {
-      return NextResponse.json({ message: 'Form submitted successfully' });
+      return NextResponse.json({ message: "Form submitted successfully" });
     } else {
-      return NextResponse.json({ error: 'Error submitting form' }, { status: 500 });
+      return NextResponse.json(
+        { error: "Error submitting form" },
+        { status: 500 }
+      );
     }
   } catch (error) {
-    console.error('Error submitting form:', error);
-    return NextResponse.json({ error: 'Error submitting form' }, { status: 500 });
+    console.error("Error submitting form:", error);
+    return NextResponse.json(
+      { error: "Error submitting form" },
+      { status: 500 }
+    );
   }
 }

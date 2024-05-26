@@ -223,30 +223,36 @@ export default function FormPage() {
             <div className="mt-1 grid grid-cols-2 gap-4">
               <Checkbox
                 name="services"
-                value="Videography"
-                onChange={handleChange}
-                radius="sm"
-              >
-                {" "}
-                Videography{" "}
-              </Checkbox>
-              <Checkbox
-                name="services"
                 value="Photography"
                 onChange={handleChange}
                 radius="sm"
+                className="min-w-max"
               >
                 {" "}
-                Photography{" "}
+                <p className="min-w-max">Photography</p>{" "}
               </Checkbox>
               <Checkbox
                 name="services"
-                value="Floor Planning 2D"
+                value="Floor Planning 2D Colored"
                 onChange={handleChange}
                 radius="sm"
               >
                 {" "}
-                Floor Plan 2D{" "}
+                <p className="min-w-max">
+                  Floor Plan 2D <br /> Colored
+                </p>{" "}
+              </Checkbox>
+              <Checkbox
+                name="services"
+                value="Floor Planning 2D Black & White"
+                onChange={handleChange}
+                radius="sm"
+              >
+                {" "}
+                <p className="min-w-max">
+                  Floor Plan 2D <br />
+                  Black & White
+                </p>
               </Checkbox>
               <Checkbox
                 name="services"
@@ -255,7 +261,7 @@ export default function FormPage() {
                 radius="sm"
               >
                 {" "}
-                Floor Plan 3D{" "}
+                <p className="min-w-max">Floor Plan 3D</p>
               </Checkbox>
             </div>
           </div>

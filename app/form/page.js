@@ -166,7 +166,7 @@ export default function FormPage() {
           </div>
           <div className="mb-4">
             <label className="block text-gray-800">
-              Number
+              Phone Number
               <span>
                 <sup className="pl-1 text-red-500">*</sup>
               </span>{" "}
@@ -223,12 +223,12 @@ export default function FormPage() {
             <div className="mt-1 grid grid-cols-2 gap-4">
               <Checkbox
                 name="services"
-                value="Interior Design"
+                value="Videography"
                 onChange={handleChange}
                 radius="sm"
               >
                 {" "}
-                Interior Design{" "}
+                Videography{" "}
               </Checkbox>
               <Checkbox
                 name="services"

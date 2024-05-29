@@ -55,7 +55,7 @@ const images = [
   {
     id: 6,
     number: "006",
-    url: "https://ucarecdn.com/0198a271-7f72-40ca-9bd0-1dde7d25f3ab/FloorPlan.png",
+    url: "https://ucarecdn.com/7d156911-fb15-4e43-bb17-d92540b38c79/Floorplansample.png",
     info: "Floor Plan",
   },
 ];

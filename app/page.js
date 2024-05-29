@@ -227,7 +227,7 @@ export default function Home() {
                 layout="fill"
                 objectFit="cover"
               />
-              <div className="absolute -bottom-10 right-5 text-3xl text-black font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+              <div className="absolute -bottom-10 right-5 text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
                 {image.info}
               </div>
             </div>

@@ -114,227 +114,231 @@ export default function FormPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 inter">
-      <Toaster />
-      <div className=" p-5 rounded-xl max-w-6xl w-full flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 p-4 hidden md:block">
-          <div className="w-full h-full relative">
-            <Image
-              className="object-cover rounded-xl"
-              layout="fill"
-              src="https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600"
-              alt="About us image"
-            />
-          </div>
-        </div>
-        <form onSubmit={handleSubmit} className="w-full md:w-1/2 p-4">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Book Now</h2>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Name
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Owner's Name
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="text"
-              name="ownerName"
-              value={formData.ownerName}
-              onChange={handleChange}
-              placeholder="Owner Name"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Email
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.email && (
-              <p className="text-red-500 mt-1">{errors.email}</p>
-            )}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Phone Number
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="text"
-              name="number"
-              value={formData.number}
-              onChange={handleChange}
-              placeholder="Number"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.number && (
-              <p className="text-red-500 mt-1">{errors.number}</p>
-            )}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Owner's Phone Number
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="text"
-              name="ownerNumber"
-              value={formData.ownerNumber}
-              onChange={handleChange}
-              placeholder="Owner Number"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.number && (
-              <p className="text-red-500 mt-1">{errors.number}</p>
-            )}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Property Address
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              placeholder="Address"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.address && (
-              <p className="text-red-500 mt-1">{errors.address}</p>
-            )}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Date
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              placeholder="Date"
-              min={new Date().toISOString().split("T")[0]}
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.date && <p className="text-red-500 mt-1">{errors.date}</p>}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">
-              Time
-              <span>
-                <sup className="pl-1 text-red-500">*</sup>
-              </span>{" "}
-            </label>
-            <input
-              type="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-              placeholder="Time"
-              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            {errors.time && <p className="text-red-500 mt-1">{errors.time}</p>}
-          </div>
-          <div className="mb-2">
-            <label className="block text-gray-800">Services</label>
-            <div className="mt-1 grid grid-cols-2 gap-4">
-              <Checkbox
-                name="services"
-                value="Photography"
-                onChange={handleChange}
-                radius="sm"
-                className="min-w-max"
-              >
-                {" "}
-                <p className="min-w-max">Photography</p>{" "}
-              </Checkbox>
-              <Checkbox
-                name="services"
-                value="Floor Planning 2D Colored"
-                onChange={handleChange}
-                radius="sm"
-              >
-                {" "}
-                <p className="min-w-max">
-                  Floor Plan 2D <br /> Colored
-                </p>{" "}
-              </Checkbox>
-              <Checkbox
-                name="services"
-                value="Floor Planning 2D Black & White"
-                onChange={handleChange}
-                radius="sm"
-              >
-                {" "}
-                <p className="min-w-max">
-                  Floor Plan 2D <br />
-                  Black & White
-                </p>
-              </Checkbox>
-              <Checkbox
-                name="services"
-                value="Floor Plan 3D"
-                onChange={handleChange}
-                radius="sm"
-              >
-                {" "}
-                <p className="min-w-max">Floor Plan 3D</p>
-              </Checkbox>
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 inter">
+        <Toaster />
+        <div className=" p-5 rounded-xl max-w-6xl w-full flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2 p-4 hidden md:block">
+            <div className="w-full h-full relative">
+              <Image
+                className="object-cover rounded-xl"
+                layout="fill"
+                src="https://images.pexels.com/photos/1080696/pexels-photo-1080696.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="About us image"
+              />
             </div>
           </div>
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            Submit
-          </button>
-        </form>
-        <p className="absolute bottom-4 right-4 flex text-gray-800">
-          Need help?{" "}
-          <Link href="mailto:sales@archiphtography.com">
-            <p className="text-indigo-600 pl-2">Contact us</p>
-          </Link>
-        </p>
+          <form onSubmit={handleSubmit} className="w-full md:w-1/2 p-4">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Book Now</h2>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Name
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.name && (
+                <p className="text-red-500 mt-1">{errors.name}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Owner's Name
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="text"
+                name="ownerName"
+                value={formData.ownerName}
+                onChange={handleChange}
+                placeholder="Owner Name"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.name && (
+                <p className="text-red-500 mt-1">{errors.name}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Email
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.email && (
+                <p className="text-red-500 mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Phone Number
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="text"
+                name="number"
+                value={formData.number}
+                onChange={handleChange}
+                placeholder="Number"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.number && (
+                <p className="text-red-500 mt-1">{errors.number}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Owner's Phone Number
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="text"
+                name="ownerNumber"
+                value={formData.ownerNumber}
+                onChange={handleChange}
+                placeholder="Owner Number"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.number && (
+                <p className="text-red-500 mt-1">{errors.number}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Property Address
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Address"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.address && (
+                <p className="text-red-500 mt-1">{errors.address}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Date
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                placeholder="Date"
+                min={new Date().toISOString().split("T")[0]}
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.date && (
+                <p className="text-red-500 mt-1">{errors.date}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">
+                Time
+                <span>
+                  <sup className="pl-1 text-red-500">*</sup>
+                </span>{" "}
+              </label>
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                placeholder="Time"
+                className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              {errors.time && (
+                <p className="text-red-500 mt-1">{errors.time}</p>
+              )}
+            </div>
+            <div className="mb-2">
+              <label className="block text-gray-800">Services</label>
+              <div className="mt-1 grid sm:grid-cols-1 md:grid-cols-2 gap-4 min-w-full">
+                <Checkbox
+                  name="services"
+                  value="Photography"
+                  onChange={handleChange}
+                  radius="sm"
+                >
+                  {" "}
+                  <p className="">Photography</p>{" "}
+                </Checkbox>
+                <Checkbox
+                  name="services"
+                  value="Floor Planning 2D Colored"
+                  onChange={handleChange}
+                  radius="sm"
+                >
+                  {" "}
+                  <p className="">Floor Plan 2D Colored</p>{" "}
+                </Checkbox>
+                <Checkbox
+                  name="services"
+                  value="Floor Planning 2D Black & White"
+                  onChange={handleChange}
+                  radius="sm"
+                >
+                  {" "}
+                  <p className="">Floor Plan 2D Black & White</p>
+                </Checkbox>
+                <Checkbox
+                  name="services"
+                  value="Floor Plan 3D"
+                  onChange={handleChange}
+                  radius="sm"
+                >
+                  {" "}
+                  <p className="">Floor Plan 3D</p>
+                </Checkbox>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              Submit
+            </button>
+            <p className="flex justify-end text-right text-gray-800 inter pt-2">
+              Need help?{" "}
+              <Link href="mailto:sales@archiphtography.com">
+                <p className="text-indigo-600 pl-2">Contact us</p>
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

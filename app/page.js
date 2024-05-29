@@ -201,7 +201,9 @@ export default function Home() {
     <>
       <main className="inter bg-[#171717] min-h-screen">
         <nav className="flex justify-between p-5">
-          <h1 className="text-lg font-semibold text-white scale-y-105 tracking-wide">Archi</h1>
+          <h1 className="text-lg font-semibold text-white scale-y-105 tracking-wide">
+            Archi
+          </h1>
           <Link href="/form" className="text-white">
             <p className="group font-regular transition duration-300 font-medium text-lg">
               Book Now

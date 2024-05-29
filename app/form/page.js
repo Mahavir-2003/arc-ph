@@ -134,7 +134,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Name
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -151,9 +151,9 @@ export default function FormPage() {
             </div>
             <div className="mb-2">
               <label className="block text-gray-800">
-                Owner's Name
+                Owner&apos;s Name
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -172,7 +172,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Email
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -191,7 +191,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Phone Number
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -208,9 +208,9 @@ export default function FormPage() {
             </div>
             <div className="mb-2">
               <label className="block text-gray-800">
-                Owner's Phone Number
+                Owner&apos;s Phone Number
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -229,7 +229,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Property Address
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -248,7 +248,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Date
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input
@@ -268,7 +268,7 @@ export default function FormPage() {
               <label className="block text-gray-800">
                 Time
                 <span>
-                  <sup className="pl-1 text-red-500">*</sup>
+                  <span className="pl-1 text-red-500">&#42;</span>
                 </span>{" "}
               </label>
               <input

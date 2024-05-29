@@ -43,7 +43,7 @@ const images = [
   {
     id: 4,
     number: "004",
-    url: "https://ucarecdn.com/f2f7aa3a-f318-4aaf-b533-736920adb4c5/Floorplansample.png",
+    url: "https://ucarecdn.com/0198a271-7f72-40ca-9bd0-1dde7d25f3ab/FloorPlan.png",
     info: "Floor Plan",
   },
 ];
@@ -199,7 +199,7 @@ export default function Home() {
         </nav>
         <div className="flex h-1/2 p-5 main-text">
           <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-white pt-24 pb-16 tracking-wide scale-y-105">
-            Photography & Planning — Adelaide
+            Photography & Drafting
           </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
@@ -215,22 +215,7 @@ export default function Home() {
                 layout="fill"
                 objectFit="cover"
               />
-              <div
-                className="absolute -bottom-10 left-5 text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300"
-                style={{
-                  mixBlendMode: "revert",
-                  textShadow: "0px 0px 1px #000",
-                }}
-              >
-                {image.number}
-              </div>
-              <div
-                className="absolute -bottom-10 right-5 text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300"
-                style={{
-                  mixBlendMode: "revert",
-                  textShadow: "0px 0px 1px #000",
-                }}
-              >
+              <div className="absolute -bottom-10 right-5 text-3xl text-black font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
                 {image.info}
               </div>
             </div>

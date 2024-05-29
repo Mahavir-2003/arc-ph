@@ -25,26 +25,26 @@ const images = [
   {
     id: 1,
     number: "001",
-    url: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: "https://ucarecdn.com/8faf3259-8b03-4123-ba97-781b9656a644/DaytoDusk284Rivised.jpg",
     info: "Photography",
   },
   {
     id: 2,
     number: "002",
-    url: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: "https://ucarecdn.com/d529e25d-16d7-49e9-a195-ff81a71b15f0/Livingroom.jpg",
     info: "Photography",
   },
   {
     id: 3,
     number: "003",
-    url: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    url: "https://ucarecdn.com/28e8664e-e31a-4945-99b8-f1f796980061/bedroom.jpg",
     info: "Photography",
   },
   {
     id: 4,
     number: "004",
-    url: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    info: "Photography",
+    url: "https://ucarecdn.com/f2f7aa3a-f318-4aaf-b533-736920adb4c5/Floorplansample.png",
+    info: "Floor Plan",
   },
 ];
 
@@ -215,10 +215,22 @@ export default function Home() {
                 layout="fill"
                 objectFit="cover"
               />
-              <div className="absolute -bottom-10 left-5 text-white text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+              <div
+                className="absolute -bottom-10 left-5 text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300"
+                style={{
+                  mixBlendMode: "revert",
+                  textShadow: "0px 0px 1px #000",
+                }}
+              >
                 {image.number}
               </div>
-              <div className="absolute -bottom-10 right-5 text-white text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+              <div
+                className="absolute -bottom-10 right-5 text-3xl font-light group-hover:bottom-5 transition-all ease-in-out duration-300"
+                style={{
+                  mixBlendMode: "revert",
+                  textShadow: "0px 0px 1px #000",
+                }}
+              >
                 {image.info}
               </div>
             </div>
@@ -261,6 +273,7 @@ export default function Home() {
               alt="Parallax Image"
               layout="fill"
               objectFit="cover"
+              quality={100}
             />
           </div>
         </div>

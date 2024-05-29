@@ -46,6 +46,18 @@ const images = [
     url: "https://ucarecdn.com/0198a271-7f72-40ca-9bd0-1dde7d25f3ab/FloorPlan.png",
     info: "Floor Plan",
   },
+  {
+    id: 5,
+    number: "005",
+    url: "https://ucarecdn.com/872dd2c6-a9ef-4dad-85e9-e45d307fa9f6/Kitchen.jpg",
+    info: "Photography",
+  },
+  {
+    id: 6,
+    number: "006",
+    url: "https://ucarecdn.com/72178346-b781-412d-bf5f-ac24c5aa9fa5/Dinning.jpg",
+    info: "Photography",
+  }
 ];
 
 const sections = [
@@ -282,7 +294,7 @@ export default function Home() {
         <footer className="p-5 text-white text-md font-light flex justify-between">
           <div>
             <p>&#169; ARCHI &#8211; 2024</p>
-            <p>Photography & Planning &#8211; Adelaide</p>
+            <p>Photography & Drafting &#8211; Adelaide</p>
           </div>
           <div className="flex flex-col text-right text-md">
             <Link href="tel:0404098419">

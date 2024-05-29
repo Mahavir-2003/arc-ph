@@ -8,13 +8,23 @@ import { Checkbox } from "@nextui-org/checkbox";
 
 const schema = z.object({
   name: z.string().nonempty("Name is required"),
+  ownerName: z.string().nonempty("Owner's Name is required"),
   email: z.string().email("Invalid email address"),
   number: z
     .string()
     .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/)
     .or(z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/))
-    .optional()
-    .refine((value) => value !== "", { message: "Phone number is required" }),
+    .refine((value) => value !== "", {
+      message: "Phone number is required",
+    }),
+  ownerNumber: z
+    .string()
+    .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/)
+    .or(z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/))
+    .refine((value) => value !== "", {
+      message: "Owner's phone number is required",
+    }),
+  address: z.string().nonempty("Address is required"),
   date: z.string().nonempty("Date is required"),
   time: z.string().nonempty("Time is required"),
 });
@@ -22,8 +32,11 @@ const schema = z.object({
 export default function FormPage() {
   const [formData, setFormData] = useState({
     name: "",
+    ownerName: "",
     email: "",
     number: "",
+    ownerNumber: "",
+    address: "",
     date: "",
     time: "",
     services: [],
@@ -36,9 +49,29 @@ export default function FormPage() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const fields = [
+      "name",
+      "ownerName",
+      "email",
+      "number",
+      "ownerNumber",
+      "address",
+      "date",
+      "time",
+    ];
+    fields.forEach((field) => {
+      if (errors[field] && formData[field]) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [field]: "",
+        }));
+      }
+    });
+  }, [formData]);
+
   if (!mounted)
     return (
-      // show a loader
       <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 inter">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
       </div>
@@ -95,8 +128,8 @@ export default function FormPage() {
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "services") {
-      const { value, checked } = e.target;
+    const { name, value, checked } = e.target;
+    if (name === "services") {
       if (checked) {
         setFormData((prevData) => ({
           ...prevData,
@@ -109,7 +142,7 @@ export default function FormPage() {
         }));
       }
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -164,8 +197,8 @@ export default function FormPage() {
                 placeholder="Owner Name"
                 className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
-              {errors.name && (
-                <p className="text-red-500 mt-1">{errors.name}</p>
+              {errors.ownerName && (
+                <p className="text-red-500 mt-1">{errors.ownerName}</p>
               )}
             </div>
             <div className="mb-2">
@@ -221,8 +254,8 @@ export default function FormPage() {
                 placeholder="Owner Number"
                 className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
-              {errors.number && (
-                <p className="text-red-500 mt-1">{errors.number}</p>
+              {errors.ownerNumber && (
+                <p className="text-red-500 mt-1">{errors.ownerNumber}</p>
               )}
             </div>
             <div className="mb-2">
@@ -332,7 +365,7 @@ export default function FormPage() {
             </button>
             <p className="flex justify-end text-right text-gray-800 inter pt-2">
               Need help?{" "}
-              <Link href="mailto:sales@archiphtography.com">
+              <Link href="mailto:sales@archiphotography.com">
                 <p className="text-indigo-600 pl-2">Contact us</p>
               </Link>
             </p>

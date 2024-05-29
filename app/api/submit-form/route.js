@@ -8,7 +8,9 @@ export async function POST(request) {
     const formData = await request.json();
     console.log("Form data:", formData);
 
-    const response = await fetch(devForm, {
+    const formUrl = process.env.NODE_ENV === "production" ? prodForm : devForm;
+
+    const response = await fetch(formUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

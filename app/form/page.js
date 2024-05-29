@@ -63,8 +63,11 @@ export default function FormPage() {
         toast.success("Form submitted successfully");
         setFormData({
           name: "",
+          ownerName: "",
           email: "",
           number: "",
+          ownerNumber: "",
+          address: "",
           date: "",
           time: "",
           services: [],
@@ -113,7 +116,7 @@ export default function FormPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white text-gray-800 inter">
       <Toaster />
-      <div className=" p-8 rounded-xl max-w-4xl w-full flex flex-col md:flex-row">
+      <div className=" p-5 rounded-xl max-w-6xl w-full flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-4 hidden md:block">
           <div className="w-full h-full relative">
             <Image
@@ -125,10 +128,8 @@ export default function FormPage() {
           </div>
         </div>
         <form onSubmit={handleSubmit} className="w-full md:w-1/2 p-4">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">
-            Schedule a Call
-          </h2>
-          <div className="mb-4">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Book Now</h2>
+          <div className="mb-2">
             <label className="block text-gray-800">
               Name
               <span>
@@ -145,7 +146,24 @@ export default function FormPage() {
             />
             {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
+            <label className="block text-gray-800">
+              Owner's Name
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="text"
+              name="ownerName"
+              value={formData.ownerName}
+              onChange={handleChange}
+              placeholder="Owner Name"
+              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
+          </div>
+          <div className="mb-2">
             <label className="block text-gray-800">
               Email
               <span>
@@ -164,7 +182,7 @@ export default function FormPage() {
               <p className="text-red-500 mt-1">{errors.email}</p>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-gray-800">
               Phone Number
               <span>
@@ -183,7 +201,45 @@ export default function FormPage() {
               <p className="text-red-500 mt-1">{errors.number}</p>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
+            <label className="block text-gray-800">
+              Owner's Phone Number
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="text"
+              name="ownerNumber"
+              value={formData.ownerNumber}
+              onChange={handleChange}
+              placeholder="Owner Number"
+              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.number && (
+              <p className="text-red-500 mt-1">{errors.number}</p>
+            )}
+          </div>
+          <div className="mb-2">
+            <label className="block text-gray-800">
+              Property Address
+              <span>
+                <sup className="pl-1 text-red-500">*</sup>
+              </span>{" "}
+            </label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Address"
+              className="mt-1 block w-full px-3 py-2 border border-gray-400 rounded-xl shadow-sm placeholder-gray-600 bg-gray-100 text-gray-800 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            {errors.address && (
+              <p className="text-red-500 mt-1">{errors.address}</p>
+            )}
+          </div>
+          <div className="mb-2">
             <label className="block text-gray-800">
               Date
               <span>
@@ -201,7 +257,7 @@ export default function FormPage() {
             />
             {errors.date && <p className="text-red-500 mt-1">{errors.date}</p>}
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-gray-800">
               Time
               <span>
@@ -218,7 +274,7 @@ export default function FormPage() {
             />
             {errors.time && <p className="text-red-500 mt-1">{errors.time}</p>}
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label className="block text-gray-800">Services</label>
             <div className="mt-1 grid grid-cols-2 gap-4">
               <Checkbox

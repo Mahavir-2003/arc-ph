@@ -43,21 +43,21 @@ const images = [
   {
     id: 4,
     number: "004",
-    url: "https://ucarecdn.com/0198a271-7f72-40ca-9bd0-1dde7d25f3ab/FloorPlan.png",
-    info: "Floor Plan",
+    url: "https://ucarecdn.com/872dd2c6-a9ef-4dad-85e9-e45d307fa9f6/Kitchen.jpg",
+    info: "Photography",
   },
   {
     id: 5,
     number: "005",
-    url: "https://ucarecdn.com/872dd2c6-a9ef-4dad-85e9-e45d307fa9f6/Kitchen.jpg",
+    url: "https://ucarecdn.com/72178346-b781-412d-bf5f-ac24c5aa9fa5/Dinning.jpg",
     info: "Photography",
   },
   {
     id: 6,
     number: "006",
-    url: "https://ucarecdn.com/72178346-b781-412d-bf5f-ac24c5aa9fa5/Dinning.jpg",
-    info: "Photography",
-  }
+    url: "https://ucarecdn.com/0198a271-7f72-40ca-9bd0-1dde7d25f3ab/FloorPlan.png",
+    info: "Floor Plan",
+  },
 ];
 
 const sections = [
@@ -201,10 +201,10 @@ export default function Home() {
     <>
       <main className="inter bg-[#171717] min-h-screen">
         <nav className="flex justify-between p-5">
-          <h1 className="text-lg font-semibold text-white">ARCHI</h1>
+          <h1 className="text-lg font-semibold text-white scale-y-105 tracking-wide">Archi</h1>
           <Link href="/form" className="text-white">
-            <p className="group font-regular transition duration-300">
-              Schedule a Call
+            <p className="group font-regular transition duration-300 font-medium text-lg">
+              Book Now
               <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-white"></span>
             </p>
           </Link>
@@ -220,14 +220,24 @@ export default function Home() {
               key={image.id}
               className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
             >
-              <Image
-                className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
-                src={image.url}
-                alt={image.info}
-                layout="fill"
-                objectFit="cover"
-              />
-              <div className="absolute -bottom-10 right-5 text-3xl text-black font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+              <Link
+                href={image.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View in full screen"
+              >
+                <Image
+                  className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
+                  src={image.url}
+                  alt={image.info}
+                  layout="fill"
+                  objectFit="cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-2xl">View Full Image</p>
+                </div>
+              </Link>
+              <div className="absolute -bottom-10 right-5 text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
                 {image.info}
               </div>
             </div>
@@ -265,7 +275,7 @@ export default function Home() {
         <div className="relative h-[80vh] overflow-hidden">
           <div className="absolute inset-0">
             <Image
-              className="object-cover image-container h-[100vh]"
+              className="object-cover image-container h-[100vh] py-2"
               src="https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Parallax Image"
               layout="fill"

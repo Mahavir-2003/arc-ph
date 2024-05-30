@@ -9,6 +9,7 @@ export async function POST(request) {
     console.log("Form data:", formData);
 
     const formUrl = process.env.NODE_ENV === "production" ? prodForm : devForm;
+    console.log("Form URL:", formUrl);
 
     const response = await fetch(formUrl, {
       method: "POST",

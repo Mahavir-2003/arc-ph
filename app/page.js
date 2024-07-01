@@ -20,68 +20,10 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-
-const images = [
-  {
-    id: 1,
-    number: "001",
-    url: "https://ucarecdn.com/8faf3259-8b03-4123-ba97-781b9656a644/DaytoDusk284Rivised.jpg",
-    info: "Photography",
-  },
-  {
-    id: 2,
-    number: "002",
-    url: "https://ucarecdn.com/d529e25d-16d7-49e9-a195-ff81a71b15f0/Livingroom.jpg",
-    info: "Photography",
-  },
-  {
-    id: 3,
-    number: "003",
-    url: "https://ucarecdn.com/28e8664e-e31a-4945-99b8-f1f796980061/bedroom.jpg",
-    info: "Photography",
-  },
-  {
-    id: 4,
-    number: "004",
-    url: "https://ucarecdn.com/872dd2c6-a9ef-4dad-85e9-e45d307fa9f6/Kitchen.jpg",
-    info: "Photography",
-  },
-  {
-    id: 5,
-    number: "005",
-    url: "https://ucarecdn.com/72178346-b781-412d-bf5f-ac24c5aa9fa5/Dinning.jpg",
-    info: "Photography",
-  },
-  {
-    id: 6,
-    number: "006",
-    url: "https://ucarecdn.com/7d156911-fb15-4e43-bb17-d92540b38c79/Floorplansample.png",
-    info: "Floor Plan",
-  },
-];
-
-const sections = [
-  {
-    title: "Photography",
-    description:
-      "Capture the essence of your property with our professional photography services. From real estate to interior design, our expert photographers highlight your property's best features, ensuring it stands out. Let stunning images tell your story and make a lasting impression.",
-  },
-  {
-    title: "Floor Plan 2D B/W",
-    description:
-      "Discover clarity in simplicity with our 2D black and white floor plans. These plans offer a clear overview of your property's structure, providing essential insights for renovations, marketing, or property management.",
-  },
-  {
-    title: "Floor Plan 2D Color",
-    description:
-      "Visualize your space with precision and vibrancy through our 2D color floor plans. Each plan is meticulously crafted to showcase your property's layout, offering clarity and detail that empower your decision-making process.",
-  },
-  {
-    title: "Floor Plan 3D",
-    description:
-      "Step into immersive visualization with our 3D floor plans, where spaces come to life in stunning detail. Experience your property from every angle, whether you're planning renovations, presenting designs, or captivating audiences with dynamic visuals.",
-  },
-];
+import Navbar from "./components/Navbar";
+import Crousel from "./components/Crousel";
+import Services from "./components/Services";
+import Footer from "./components/Footer";
 
 export default function Home() {
   useEffect(() => {
@@ -101,65 +43,13 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const tl = gsap.timeline({});
-
-    tl.set(".main-text", { opacity: 0, y: -100 })
-      .set(".image-grid", {
-        opacity: 0,
-        y: 100,
-      })
-      .set(".proj-images", {
-        scale: 1.1,
-      })
-      .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power4.out" })
-      .to(
-        ".image-grid",
-        { y: 0, opacity: 1, duration: 1.2, ease: "circ.out" },
-        "-=0.5"
-      )
-      .to(
-        ".proj-images",
-        { scale: 1, duration: 1.2, ease: "circ.out" },
-        "-=0.5"
-      );
-
-    return () => {
-      tl.kill();
-    };
-  }, []);
-
-  useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const tl1 = gsap.timeline({});
+    const tl3 = gsap.timeline({});
 
-    tl1.fromTo(
-      ".services",
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".services",
-          start: "top bottom",
-          end: "bottom center",
-          scrub: 1,
-        },
-      }
-    );
-  }, []);
-
-  // stagger animation via scroll trigger
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const tl2 = gsap.timeline({});
-
-    tl2.fromTo(
-      ".service-list",
-      { y: 100, opacity: 0 },
+    tl3.fromTo(
+      ".timings-list",
+      { y: 200, opacity: 0 },
       {
         y: 0,
         stagger: 0.7,
@@ -167,7 +57,7 @@ export default function Home() {
         duration: 2,
         ease: "power4.out",
         scrollTrigger: {
-          trigger: ".service-list",
+          trigger: ".timings-list",
           start: "top bottom",
           end: "bottom top",
           scrub: 1,
@@ -176,147 +66,69 @@ export default function Home() {
     );
   }, []);
 
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.utils.toArray(".image-container").forEach(function (container) {
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          scrub: 0.5,
-          pin: false,
-        },
-      });
-      tl.from(container, {
-        yPercent: -20, // reduce yPercent values
-        ease: "power1.inOut",
-      }).to(container, {
-        yPercent: 20, // reduce yPercent values
-        ease: "power1.inOut",
-      });
-    });
-  }, []);
+  const timings = [
+    {
+      title: "Monday - Friday",
+      description: "8:00 AM - 5:00 PM",
+    },
+    {
+      title: "Saturday - Sunday",
+      description: "8:00 AM - 5:30 PM",
+    },
+  ];
 
   return (
     <>
-      <main className="inter bg-[#171717] min-h-screen">
-        <nav className="flex justify-between p-5">
-          <h1 className="text-xl font-bold text-white scale-y-105 tracking-wide">
-            ARCHI
-          </h1>
-          <Link href="/form" className="text-white">
-            <p className="group font-regular transition duration-300 font-medium text-lg">
-              Book Now
-              <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-white"></span>
-            </p>
-          </Link>
-        </nav>
+      <main className="inter bg-[#efebe0] min-h-screen">
+        <Navbar />
         <div className="flex h-1/2 p-5 main-text">
-          <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-white pt-24 pb-16 tracking-wide scale-y-105">
+          <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-black pt-10 md:pt-24 pb-16 tracking-wide scale-y-105">
             Photography & Drafting
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
-          {images.map((image) => (
-            <div
-              key={image.id}
-              className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
-            >
-              <Link
-                href={image.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View in full screen"
-              >
-                <Image
-                  className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
-                  src={image.url}
-                  alt={image.info}
-                  layout="fill"
-                  objectFit="cover"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-2xl">View Full Image</p>
-                </div>
-              </Link>
-              <div className="absolute -bottom-10 right-5 text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
-                {image.info}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="text-white text-xl font-medium p-5 right-0 text-right">
+        <Crousel />
+        <div
+          className="text-black text-xl font-medium p-5 right-0 text-right"
+          id="services"
+        >
           ...
         </div>
-        <div className="p-5 flex flex-col lg:flex-row md:flex-row justify-between">
+        <Services />
+        <div
+          className="text-black text-xl font-medium p-5 right-0 text-right "
+          id="timings"
+        >
+          ...
+        </div>
+        <div className="h-10"></div>
+        {/* add a timings section */}
+        <div className="p-5 flex flex-col lg:flex-row md:flex-row justify-between ">
           <div className="w-[55%] services">
-            <h1 className="text-4xl md:text-4xl lg:text-8xl font-bold text-white">
-              Services &#8211;
+            <h1 className="text-4xl md:text-4xl lg:text-8xl font-bold text-black">
+              Timings &#8211;
             </h1>
           </div>
           {/* spacer */}
           <div className="h-10"></div>
           <div className="w-full lg:w-[60%]">
-            {sections.map((section, index) => (
+            {timings.map((timings, index) => (
               <div key={index} className="">
                 <div className="flex flex-col w-full service-list">
-                  <h2 className="lg:text-4xl text-2xl font-semibold text-white">
-                    {section.title}
+                  <h2 className="lg:text-4xl text-2xl font-semibold text-black">
+                    {timings.title}
                   </h2>
                   <div className="h-5"></div>
-                  <p className="text-white text-wrap text-sm lg:text-xl font-light">
-                    {section.description}
+                  <p className="text-black text-wrap text-sm lg:text-xl font-light">
+                    {timings.description}
                   </p>
                 </div>
-                <div className="h-[1px] bg-white w-full mt-10"></div>
+                <div className="h-[1px] bg-black w-full mt-10"></div>
                 <div className="h-10"></div>
               </div>
             ))}
           </div>
         </div>
-        <div className="relative h-[80vh] overflow-hidden">
-          <div className="absolute inset-0">
-            <Image
-              className="object-cover image-container h-[100vh] py-2"
-              src="https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Parallax Image"
-              layout="fill"
-              objectFit="cover"
-              quality={100}
-            />
-          </div>
-        </div>
-        {/* company profile */}
-        <div className="p-5 flex flex-col lg:flex-row justify-between py-20">
-          <div>
-            <h1 className="lg:text-3xl text-2xl font-bold text-white">ARCHI</h1>
-          </div>
-          {/* spacer */}
-          <div className="h-3"></div>
-          <div>
-            <div className="flex flex-col w-full">
-              <p className="text-white lg:text-2xl text-md font-normal w-full">
-                Visualize. Captivate. Elevate. Your property, our expertise.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* company profile ended */}
-        {/* footer */}
-        <footer className="p-5 text-white text-md font-light flex justify-between">
-          <div>
-            <p>&#169; ARCHI &#8211; 2024</p>
-            <p>Photography & Drafting &#8211; Adelaide</p>
-          </div>
-          <div className="flex flex-col text-right text-md">
-            <Link href="tel:0404098419">
-              <p className="text-white">Contact</p>
-            </Link>
-            <Link href="mailto:sales@archiphotography.com">
-              <p className="text-white group">Email</p>
-            </Link>
-          </div>
-        </footer>
+        <Footer />
         {/* spacer */}
         <div className="h-10"></div>
       </main>

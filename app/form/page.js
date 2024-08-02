@@ -17,13 +17,13 @@ const schema = z.object({
     .refine((value) => value !== "", {
       message: "Phone number is required",
     }),
-  ownerNumber: z
-    .string()
-    .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/)
-    .or(z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/))
-    .refine((value) => value !== "", {
-      message: "Owner's phone number is required",
-    }),
+  // ownerNumber: z
+  //   .string()
+  //   .regex(/^(?:\+?61|0)\s?[2-478](?:[ -]?[0-9]){8}$/)
+  //   .or(z.string().regex(/^(?:\+?91|0)?[6789]\d{9}$/))
+  //   .refine((value) => value !== "", {
+  //     message: "Owner's phone number is required",
+  //   }),
   address: z.string().nonempty("Address is required"),
   date: z.string().nonempty("Date is required"),
   time: z.string().nonempty("Time is required"),
@@ -68,7 +68,7 @@ export default function FormPage() {
         }));
       }
     });
-  }, [formData]);
+  }, [errors, formData]);
 
   if (!mounted)
     return (
@@ -242,9 +242,9 @@ export default function FormPage() {
             <div className="mb-2">
               <label className="block text-gray-800">
                 Owner&apos;s Phone Number
-                <span>
+                {/* <span>
                   <span className="pl-1 text-red-500">&#42;</span>
-                </span>{" "}
+                </span>{" "} */}
               </label>
               <input
                 type="text"

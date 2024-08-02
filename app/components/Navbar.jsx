@@ -69,7 +69,7 @@ const Navbar = () => {
                   onClick={(e) => scrollToElement(e, item.tag)}
                 >
                   <p className="block py-1">{item.title}</p>
-                  <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-black"></span>
+                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-black"></span>
                 </Link>
               </li>
             ))}
@@ -79,7 +79,7 @@ const Navbar = () => {
                 className="text-black group transition duration-300"
               >
                 <p className="block text-black py-1">Book Now</p>
-                <span class="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-black"></span>
+                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-black"></span>
               </Link>
             </li>
           </ul>

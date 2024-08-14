@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar-port";
 import Footer from "../components/Footer";
 
 const projects = [

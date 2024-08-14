@@ -99,6 +99,7 @@ const Hero = () => {
             className="opacity-0"
             layout="fill"
             objectFit="cover"
+            alt="image1"
           />
           <Image
             id="image-1"
@@ -106,6 +107,7 @@ const Hero = () => {
             className="opacity-0"
             layout="fill"
             objectFit="cover"
+            alt="image2"
           />
           <Image
             id="image-2"
@@ -113,6 +115,7 @@ const Hero = () => {
             className="opacity-0"
             layout="fill"
             objectFit="cover"
+            alt="image3"
           />
           <Image
             id="image-3"
@@ -120,6 +123,7 @@ const Hero = () => {
             className="opacity-0"
             layout="fill"
             objectFit="cover"
+            alt="image4"
           />
           <div className="mask bg-black/70 w-full h-full z-[1]"></div>
         </div>

@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import Link from "next/link";
 
@@ -73,6 +74,15 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/portfolio"
+                className="text-black group transition duration-300"
+              >
+                <p className="block py-1">Portfolio</p>
+                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-black"></span>
+              </Link>
+            </li>
             <li>
               <Link
                 href="/form"

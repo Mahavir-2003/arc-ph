@@ -34,7 +34,7 @@ const Footer = () => {
       </div>
       {/* company profile ended */}
       {/* footer */}
-      <footer className="p-5 text-black text-md font-regular md:flex flex-col text-center md:text-start justify-center md:justify-between">
+      <footer className="p-5 text-black text-md font-regular md:flex flex-col md:flex-row text-center md:text-start justify-center md:justify-between">
         <div id="contact">
           <p>&#169; ARCHI &#8211; 2024</p>
           <p>
@@ -44,6 +44,7 @@ const Footer = () => {
         </div>
         {/* spacer */}
         <div className="h-5 md:h-0"></div>
+        {/* spacer */}
         <div className="flex flex-col text-center md:text-right text-md contact">
           <Link href="tel:0404098419">
             <p className="text-black">+61 0404098419</p>

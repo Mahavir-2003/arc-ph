@@ -50,15 +50,16 @@ const Crousel = () => {
 
     tl.set(".main-text", { opacity: 0, y: -100 })
       .set(".image-grid", { opacity: 0, y: 100 })
-      .set(".proj-images", { scale: 1.1 })
-      .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power4.out" })
+      .set(".proj-images", { scale: 1.1, delay: 0.5 })
+      .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" })
       .to(
         ".image-grid",
-        { y: 0, opacity: 1, duration: 0.8, ease: "power4.out" },
+        { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" },
+        "-=0.5"
       )
       .to(
         ".proj-images",
-        { scale: 1, duration: 1, ease: "circ.in" },
+        { scale: 1, duration: 1, ease: "bounce.in" },
       );
 
     return () => {

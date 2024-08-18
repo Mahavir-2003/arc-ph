@@ -38,6 +38,10 @@ const Portfolio = () => {
       .set(".proj-images", {
         scale: 1.1,
       })
+      .set(".info", {
+        opacity: 0,
+        y: 100,
+      })
       .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power4.out" })
       .to(
         ".image-grid",
@@ -47,6 +51,11 @@ const Portfolio = () => {
       .to(
         ".proj-images",
         { scale: 1, duration: 1.2, ease: "circ.out" },
+        "-=0.5"
+      )
+      .to(
+        ".info",
+        { y: 0, opacity: 1, duration: 1.2, ease: "circ.out" },
         "-=0.5"
       );
 
@@ -113,7 +122,7 @@ const Portfolio = () => {
           </div>
         ))}
       </div>
-      <div className="text-black text-xl font-medium p-5 right-0 text-right">
+      <div className="text-black text-xl font-medium p-5 right-0 text-right info">
         More works comming soon ...
       </div>
       {/* spacer */}

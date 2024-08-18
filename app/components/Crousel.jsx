@@ -49,23 +49,16 @@ const Crousel = () => {
     const tl = gsap.timeline({});
 
     tl.set(".main-text", { opacity: 0, y: -100 })
-      .set(".image-grid", {
-        opacity: 0,
-        y: 100,
-      })
-      .set(".proj-images", {
-        scale: 1.1,
-      })
+      .set(".image-grid", { opacity: 0, y: 100 })
+      .set(".proj-images", { scale: 1.1 })
       .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power4.out" })
       .to(
         ".image-grid",
-        { y: 0, opacity: 1, duration: 1.2, ease: "circ.out" },
-        "-=0.5"
+        { y: 0, opacity: 1, duration: 0.8, ease: "power4.out" },
       )
       .to(
         ".proj-images",
-        { scale: 1, duration: 1.2, ease: "circ.out" },
-        "-=0.5"
+        { scale: 1, duration: 1, ease: "circ.in" },
       );
 
     return () => {

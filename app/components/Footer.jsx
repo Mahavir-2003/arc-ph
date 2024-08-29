@@ -47,7 +47,7 @@ const Footer = () => {
         {/* spacer */}
         <div className="flex flex-col text-center md:text-right text-md contact">
           <Link href="tel:0404098419">
-            <p className="text-black">+61 0404098419</p>
+            <p className="text-black">+61 404098419</p>
           </Link>
           <Link href="mailto:sales@archiphotography.com">
             <p className="text-black group">sales@archiphotography.com</p>

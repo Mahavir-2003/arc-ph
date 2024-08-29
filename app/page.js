@@ -83,7 +83,7 @@ export default function Home() {
         <Navbar />
         <div className="flex h-1/2 p-5 main-text">
           <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-black pt-10 md:pt-24 pb-16 tracking-wide scale-y-105">
-            Photography & Drafting
+            Photography 
           </h1>
         </div>
         <Crousel />

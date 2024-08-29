@@ -38,7 +38,7 @@ const Footer = () => {
         <div id="contact">
           <p>&#169; ARCHI &#8211; 2024</p>
           <p>
-            Photography & Drafting &#8211;
+            Photography  &#8211;
             <br /> Adelaide
           </p>
         </div>

@@ -82,9 +82,14 @@ export default function Home() {
       <main className="inter bg-[#efebe0] min-h-screen">
         <Navbar />
         <div className="flex h-1/2 p-5 main-text">
-          <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-black pt-10 md:pt-24 pb-16 tracking-wide scale-y-105">
-            Photography 
-          </h1>
+          <div className="flex flex-col text-left py-5 sm:py-8 md:py-10 lg:py-12 xl:py-16">
+            <h1 className="text-3xl md:text-5xl lg:text-[6rem] font-semibold text-black tracking-wide scale-y-105 leading-tight">
+              ARCHI
+            </h1>
+            <h2 className="text-3xl md:text-5xl lg:text-[6rem] font-semibold text-black tracking-wide scale-y-105 leading-tight">
+              Photography & Drafting
+            </h2>
+          </div>
         </div>
         <Crousel />
         <div

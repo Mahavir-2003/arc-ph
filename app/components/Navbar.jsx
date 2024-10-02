@@ -75,7 +75,7 @@ const Navbar = () => {
         <Link href="/">
           <p className="flex items-center rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              ARCHI
+              {" "}
             </span>
           </p>
         </Link>

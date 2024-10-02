@@ -36,10 +36,9 @@ const Footer = () => {
       {/* footer */}
       <footer className="p-5 text-black text-md font-regular md:flex flex-col md:flex-row text-center md:text-start justify-center md:justify-between">
         <div id="contact">
-          <p>&#169; ARCHI &#8211; 2024</p>
+          <p>&#169; ARCHI &#8211; Photography & Drafting 2024</p>
           <p>
-            Photography  &#8211;
-            <br /> Adelaide
+            Adelaide
           </p>
         </div>
         {/* spacer */}

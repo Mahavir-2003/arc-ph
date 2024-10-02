@@ -28,7 +28,7 @@ const projects = [
     id: 3,
     title: "DXCv3",
     coverImage:
-      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727849096/2_zdgrwd.jpg",
+      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727850848/1_mhatfe.jpg",
     collectionUrl:
       "https://collection.cloudinary.com/dblp9jhyj/b863e5d5196613931157823f3556da1a",
   },

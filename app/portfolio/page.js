@@ -24,6 +24,14 @@ const projects = [
     collectionUrl:
       "https://collection.cloudinary.com/dblp9jhyj/dc96ef8bc6c0cc65a5bd22419740d4be",
   },
+  {
+    id: 3,
+    title: "DXCv3",
+    coverImage:
+      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727849096/2_zdgrwd.jpg",
+    collectionUrl:
+      "https://collection.cloudinary.com/dblp9jhyj/b863e5d5196613931157823f3556da1a",
+  },
 ];
 
 const Portfolio = () => {
@@ -93,11 +101,11 @@ const Portfolio = () => {
           Portfolio - Projects
         </h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 image-grid">
         {projects.map((project) => (
           <div
             key={project.id}
-            className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
+            className="w-full h-[30vh] md:h-[40vh] lg:h-[50vh] relative overflow-hidden group"
           >
             <Link
               href={project.collectionUrl}
@@ -113,17 +121,17 @@ const Portfolio = () => {
                 objectFit="cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-white text-2xl">Visit collection</p>
+                <p className="text-white text-xl lg:text-2xl">Visit collection</p>
               </div>
             </Link>
-            <div className="absolute -bottom-10 right-5 text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+            <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
               {project.title}
             </div>
           </div>
         ))}
       </div>
       <div className="text-black text-xl font-medium p-5 right-0 text-right info">
-        More works comming soon ...
+        More works coming soon ...
       </div>
       {/* spacer */}
       <div className="h-10"></div>

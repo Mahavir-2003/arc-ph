@@ -84,7 +84,7 @@ export default function Home() {
         <div className="flex h-1/2 p-5 main-text">
           <div className="flex flex-col text-left py-5 sm:py-8 md:py-10 lg:py-12 xl:py-16">
             <h1 className="text-3xl md:text-5xl lg:text-[6rem] font-semibold text-black tracking-wide scale-y-105 leading-tight">
-              ARCHI
+              ARCHI &#8211;
             </h1>
             <h2 className="text-3xl md:text-5xl lg:text-[6rem] font-semibold text-black tracking-wide scale-y-105 leading-tight">
               Photography & Drafting

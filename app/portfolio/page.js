@@ -15,6 +15,7 @@ const projects = [
       "https://res.cloudinary.com/dblp9jhyj/image/upload/v1723620251/DSC00717_uq6u1z.jpg",
     collectionUrl:
       "https://collection.cloudinary.com/dblp9jhyj/28c05b42ceafd39ec865c3abece482b6",
+    fullWidth: false,
   },
   {
     id: 2,
@@ -23,14 +24,16 @@ const projects = [
       "https://res.cloudinary.com/dblp9jhyj/image/upload/v1723622032/DSC00862_xkq05r.jpg",
     collectionUrl:
       "https://collection.cloudinary.com/dblp9jhyj/dc96ef8bc6c0cc65a5bd22419740d4be",
+    fullWidth: false,
   },
   {
     id: 3,
     title: "DXCv3",
     coverImage:
-      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727850848/1_mhatfe.jpg",
+      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727851260/27_quy0ye.jpg",
     collectionUrl:
       "https://collection.cloudinary.com/dblp9jhyj/b863e5d5196613931157823f3556da1a",
+    fullWidth: true,
   },
 ];
 
@@ -101,11 +104,15 @@ const Portfolio = () => {
           Portfolio - Projects
         </h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 image-grid">
+      <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
         {projects.map((project) => (
           <div
             key={project.id}
-            className="w-full h-[30vh] md:h-[40vh] lg:h-[50vh] relative overflow-hidden group"
+            className={`relative overflow-hidden group ${
+              project.fullWidth
+                ? "md:col-span-2 h-[60vh] md:h-[80vh]"
+                : "h-[30vh] md:h-[40vh]"
+            }`}
           >
             <Link
               href={project.collectionUrl}
@@ -121,7 +128,9 @@ const Portfolio = () => {
                 objectFit="cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-white text-xl lg:text-2xl">Visit collection</p>
+                <p className="text-white text-xl lg:text-2xl">
+                  Visit collection
+                </p>
               </div>
             </Link>
             <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">

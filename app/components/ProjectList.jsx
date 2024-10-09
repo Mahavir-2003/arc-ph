@@ -90,7 +90,7 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
       {currentProjects.map((project) => (
         <div
           key={project._id}
-          className="bg-white shadow-sm rounded-lg overflow-hidden"
+          className="bg-white rounded-lg overflow-hidden"
         >
           <div className="flex flex-col md:flex-row md:space-x-6">
             <div className="w-full md:w-1/3 mb-4 md:mb-0">

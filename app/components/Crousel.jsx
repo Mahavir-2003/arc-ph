@@ -106,7 +106,7 @@ const Crousel = () => {
               src={image.url}
               alt={image.info}
               layout="fill"
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
             />
             <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <p className="text-white text-2xl">View Full Image</p>

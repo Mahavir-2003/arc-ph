@@ -41,7 +41,7 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
                 alt={project.projectName}
                 width={200}
                 height={120}
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
               />
             </div>
             <div className="w-2/3">

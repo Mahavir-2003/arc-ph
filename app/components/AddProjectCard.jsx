@@ -74,7 +74,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
               alt="Cover Image Preview"
               width={200}
               height={200}
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
             />
           )}
         </div>

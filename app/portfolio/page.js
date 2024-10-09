@@ -115,7 +115,7 @@ const Portfolio = () => {
                 src={project.coverImage}
                 alt={project.projectName}
                 layout="fill"
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-white text-xl lg:text-2xl">

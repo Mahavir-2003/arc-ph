@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,6 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Input,
+  Pagination,
 } from "@nextui-org/react";
 import {
   Trash2,
@@ -17,6 +19,7 @@ import {
   ExternalLink,
   LayoutIcon,
   Calendar,
+  Search,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -24,6 +27,18 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
   const [deletingId, setDeletingId] = useState(null);
   const [projectToDelete, setProjectToDelete] = useState(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [currentPage, setCurrentPage] = useState(1);
+  const projectsPerPage = 2; // Changed to 2 projects per page
+
+  useEffect(() => {
+    const results = projects.filter((project) =>
+      project.projectName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProjects(results);
+    setCurrentPage(1);
+  }, [searchTerm, projects]);
 
   const handleDeleteClick = (project) => {
     setProjectToDelete(project);
@@ -57,9 +72,22 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
     }
   };
 
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      {projects.map((project) => (
+      <Input
+        clearable
+        contentLeft={<Search size={16} />}
+        placeholder="Search projects..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="mb-4"
+        variant="bordered" // Added border to the search box
+      />
+      {currentProjects.map((project) => (
         <div
           key={project._id}
           className="bg-white shadow-sm rounded-lg overflow-hidden"
@@ -135,6 +163,12 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
           </div>
         </div>
       ))}
+      <Pagination
+        total={Math.ceil(filteredProjects.length / projectsPerPage)}
+        page={currentPage}
+        onChange={setCurrentPage}
+        className="mt-4"
+      />
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="inter">
         <ModalContent>
           {(onClose) => (

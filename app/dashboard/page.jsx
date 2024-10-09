@@ -63,6 +63,12 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchProjects();
+    }
+  }, [isAuthenticated]);
+
   if (!isAuthenticated) {
     return (
       <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8 flex justify-center items-center`}>
@@ -76,6 +82,8 @@ const Dashboard = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              variant="bordered"
+              color="primary"
             />
             <Input
               type="password"
@@ -84,9 +92,17 @@ const Dashboard = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              variant="bordered"
+              color="primary"
             />
-            <Button type="submit" color="primary" fullWidth isLoading={isLoading}>
-              Login
+            <Button 
+              type="submit" 
+              color="primary" 
+              fullWidth 
+              isLoading={isLoading}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
         </Card>
@@ -113,7 +129,7 @@ const Dashboard = () => {
           <Card className="p-6">
             <h2 className="text-2xl font-semibold mb-4">Current Projects</h2>
             {isLoading ? (
-              <div className="flex justify-center">
+              <div className="flex justify-center items-center h-40">
                 <Spinner size="lg" />
               </div>
             ) : (

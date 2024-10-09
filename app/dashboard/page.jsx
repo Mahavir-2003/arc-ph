@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ['latin'] });
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -36,6 +36,7 @@ const Dashboard = () => {
 
       if (response.ok) {
         setIsAuthenticated(true);
+        localStorage.setItem('isLoggedIn', 'true');
         fetchProjects();
         gsap.to(loginCardRef.current, {
           opacity: 0,
@@ -48,6 +49,7 @@ const Dashboard = () => {
             );
           }
         });
+        toast.success('Login successful');
       } else {
         toast.error('Invalid credentials');
       }
@@ -79,15 +81,49 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchProjects();
-    } else {
-      gsap.fromTo(loginCardRef.current, 
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.5 }
-      );
-    }
-  }, [isAuthenticated]);
+    const checkAuth = async () => {
+      const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+      if (storedIsLoggedIn === 'true') {
+        setIsAuthenticated(true);
+        fetchProjects();
+      } else {
+        try {
+          const response = await fetch('/api/check-auth');
+          if (response.ok) {
+            setIsAuthenticated(true);
+            localStorage.setItem('isLoggedIn', 'true');
+            fetchProjects();
+          } else {
+            setIsAuthenticated(false);
+            gsap.fromTo(loginCardRef.current, 
+              { opacity: 0, y: 50 },
+              { opacity: 1, y: 0, duration: 0.5 }
+            );
+          }
+        } catch (error) {
+          console.error('Error checking authentication:', error);
+          toast.error('An error occurred while checking authentication');
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('isLoggedIn');
+    toast.success('Logged out successfully');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -134,7 +170,10 @@ const Dashboard = () => {
     <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8`} ref={dashboardRef}>
       <Toaster position="top-right" />
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8 text-center">Dashboard</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-center">Dashboard</h1>
+          <Button onClick={handleLogout} color="danger">Logout</Button>
+        </div>
         <div className="space-y-8">
           <Card className="p-6">
             <h2 className="text-2xl font-semibold mb-4">

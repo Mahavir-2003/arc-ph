@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Inter } from "next/font/google";
 import { Card, Spinner, Input, Button } from "@nextui-org/react";
 import AddProjectCard from "../components/AddProjectCard";
 import ProjectList from "../components/ProjectList";
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
+import gsap from 'gsap';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,9 @@ const Dashboard = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const dashboardRef = useRef(null);
+  const loginCardRef = useRef(null);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,6 +37,17 @@ const Dashboard = () => {
       if (response.ok) {
         setIsAuthenticated(true);
         fetchProjects();
+        gsap.to(loginCardRef.current, {
+          opacity: 0,
+          y: -50,
+          duration: 0.5,
+          onComplete: () => {
+            gsap.fromTo(dashboardRef.current, 
+              { opacity: 0, y: 50 },
+              { opacity: 1, y: 0, duration: 0.5 }
+            );
+          }
+        });
       } else {
         toast.error('Invalid credentials');
       }
@@ -66,13 +81,18 @@ const Dashboard = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchProjects();
+    } else {
+      gsap.fromTo(loginCardRef.current, 
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.5 }
+      );
     }
   }, [isAuthenticated]);
 
   if (!isAuthenticated) {
     return (
       <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8 flex justify-center items-center`}>
-        <Card className="p-6 w-full max-w-md">
+        <Card className="p-6 w-full max-w-md" ref={loginCardRef}>
           <h1 className="text-2xl font-bold mb-4 text-center">Dashboard Login</h1>
           <form onSubmit={handleLogin} className="space-y-4">
             <Input
@@ -111,7 +131,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8`}>
+    <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8`} ref={dashboardRef}>
       <Toaster position="top-right" />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-center">Dashboard</h1>

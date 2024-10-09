@@ -1,43 +1,33 @@
 "use client";
 import gsap from "gsap";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Navbar from "../components/Navbar-port";
 import Footer from "../components/Footer";
 
-const projects = [
-  {
-    id: 1,
-    title: "DXCv1",
-    coverImage:
-      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1723620251/DSC00717_uq6u1z.jpg",
-    collectionUrl:
-      "https://collection.cloudinary.com/dblp9jhyj/28c05b42ceafd39ec865c3abece482b6",
-    fullWidth: false,
-  },
-  {
-    id: 2,
-    title: "DXCv2",
-    coverImage:
-      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1723622032/DSC00862_xkq05r.jpg",
-    collectionUrl:
-      "https://collection.cloudinary.com/dblp9jhyj/dc96ef8bc6c0cc65a5bd22419740d4be",
-    fullWidth: false,
-  },
-  {
-    id: 3,
-    title: "DXCv3",
-    coverImage:
-      "https://res.cloudinary.com/dblp9jhyj/image/upload/v1727851260/27_quy0ye.jpg",
-    collectionUrl:
-      "https://collection.cloudinary.com/dblp9jhyj/b863e5d5196613931157823f3556da1a",
-    fullWidth: true,
-  },
-];
-
 const Portfolio = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("/api/projects");
+      if (response.ok) {
+        const data = await response.json();
+        setProjects(data);
+      } else {
+        console.error("Failed to fetch projects");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
     const tl = gsap.timeline({});
 
@@ -107,7 +97,7 @@ const Portfolio = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
         {projects.map((project) => (
           <div
-            key={project.id}
+            key={project._id}
             className={`relative overflow-hidden group ${
               project.fullWidth
                 ? "md:col-span-2 h-[60vh] md:h-[80vh]"
@@ -123,7 +113,7 @@ const Portfolio = () => {
               <Image
                 className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
                 src={project.coverImage}
-                alt={project.title}
+                alt={project.projectName}
                 layout="fill"
                 objectFit="cover"
               />
@@ -134,7 +124,7 @@ const Portfolio = () => {
               </div>
             </Link>
             <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
-              {project.title}
+              {project.projectName}
             </div>
           </div>
         ))}

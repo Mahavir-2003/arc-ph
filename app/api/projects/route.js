@@ -1,5 +1,5 @@
-import dbConnect from '@/lib/mongodb';
-import Project from '@/models/Project';
+import dbConnect from "@/lib/mongodb";
+import Project from "@/models/Project";
 
 export async function GET() {
   try {

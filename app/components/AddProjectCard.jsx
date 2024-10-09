@@ -65,20 +65,20 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex space-x-4">
-        <div className="w-1/3">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex flex-col md:flex-row md:space-x-6">
+        <div className="w-full md:w-1/3 mb-4 md:mb-0">
           {formData.coverImage && (
             <Image
               src={formData.coverImage}
               alt="Cover Image Preview"
-              width={200}
+              width={300}
               height={200}
-              style={{ objectFit: 'cover' }}
+              className="rounded-lg object-cover"
             />
           )}
         </div>
-        <div className="w-2/3 space-y-4">
+        <div className="w-full md:w-2/3 space-y-4">
           <Input
             label="Cover Image URL"
             placeholder="Enter cover image URL"
@@ -87,6 +87,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             fullWidth
             required
             variant="bordered"
+            className="break-words"
           />
           <Input
             label="Collection URL"
@@ -96,6 +97,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             fullWidth
             required
             variant="bordered"
+            className="break-words"
           />
           <Input
             label="Project Name"
@@ -105,6 +107,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             fullWidth
             required
             variant="bordered"
+            className="break-words"
           />
           <Checkbox
             isSelected={formData.fullWidth}
@@ -114,7 +117,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
           </Checkbox>
         </div>
       </div>
-      <div className="flex space-x-4 mt-4">
+      <div className="flex space-x-4 mt-6">
         <Button type="submit" color="primary" disabled={isLoading}>
           {isLoading ? <Spinner size="sm" /> : (editingProject ? 'Update Project' : 'Add Project')}
         </Button>

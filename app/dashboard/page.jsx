@@ -95,9 +95,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8 flex justify-center items-start`}>
+    <div className={`${inter.className} bg-[#efebe0] min-h-screen p-8`}>
       <Toaster position="top-right" />
-      <div className="max-w-4xl w-full">
+      <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-center">Dashboard</h1>
         <div className="space-y-8">
           <Card className="p-6">

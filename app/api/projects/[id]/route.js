@@ -1,13 +1,15 @@
-import dbConnect from '@/lib/mongodb';
-import Project from '@/models/Project';
+import dbConnect from "@/lib/mongodb";
+import Project from "@/models/Project";
 
 export async function PUT(request, { params }) {
   try {
     await dbConnect();
     const { id } = params;
     const updatedData = await request.json();
-    
-    const result = await Project.findByIdAndUpdate(id, updatedData, { new: true });
+
+    const result = await Project.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
 
     if (result) {
       return new Response(JSON.stringify(result), { status: 200 });

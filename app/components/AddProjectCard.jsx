@@ -10,6 +10,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
     fullWidth: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(null);
 
   useEffect(() => {
     if (editingProject) {
@@ -35,6 +36,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setButtonLoading('submit');
     try {
       const url = editingProject ? `/api/projects/${editingProject._id}` : "/api/projects";
       const method = editingProject ? "PUT" : "POST";
@@ -61,7 +63,14 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
       toast.error(`An error occurred while ${editingProject ? 'updating' : 'adding'} the project`);
     } finally {
       setIsLoading(false);
+      setButtonLoading(null);
     }
+  };
+
+  const handleCancelEdit = () => {
+    setButtonLoading('cancel');
+    setEditingProject(null);
+    setButtonLoading(null);
   };
 
   return (
@@ -118,12 +127,12 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
         </div>
       </div>
       <div className="flex space-x-4 mt-6">
-        <Button type="submit" color="primary" disabled={isLoading}>
-          {isLoading ? <Spinner size="sm" /> : (editingProject ? 'Update Project' : 'Add Project')}
+        <Button type="submit" color="primary" disabled={isLoading || buttonLoading !== null}>
+          {buttonLoading === 'submit' ? <Spinner size="sm" /> : (editingProject ? 'Update Project' : 'Add Project')}
         </Button>
         {editingProject && (
-          <Button color="secondary" onClick={() => setEditingProject(null)} disabled={isLoading}>
-            Cancel Edit
+          <Button color="secondary" onClick={handleCancelEdit} disabled={isLoading || buttonLoading !== null}>
+            {buttonLoading === 'cancel' ? <Spinner size="sm" /> : 'Cancel Edit'}
           </Button>
         )}
       </div>

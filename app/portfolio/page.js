@@ -100,7 +100,7 @@ const Portfolio = () => {
             key={project._id}
             className={`relative overflow-hidden group ${
               project.fullWidth
-                ? "md:col-span-2 h-[60vh] md:h-[80vh]"
+                ? "md:col-span-2 h-[48vh] md:h-[64vh]"
                 : "h-[30vh] md:h-[40vh]"
             }`}
           >

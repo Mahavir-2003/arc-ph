@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Input, Button, Image } from "@nextui-org/react";
+import { Input, Button, Image, Spinner, Checkbox } from "@nextui-org/react";
 import toast from 'react-hot-toast';
 
 const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) => {
@@ -9,12 +9,24 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
     projectName: "",
     fullWidth: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (editingProject) {
       setFormData(editingProject);
+    } else {
+      resetForm();
     }
   }, [editingProject]);
+
+  const resetForm = () => {
+    setFormData({
+      coverImage: "",
+      collectionUrl: "",
+      projectName: "",
+      fullWidth: false,
+    });
+  };
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -22,6 +34,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const url = editingProject ? `/api/projects/${editingProject._id}` : "/api/projects";
       const method = editingProject ? "PUT" : "POST";
@@ -35,7 +48,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
       });
 
       if (response.ok) {
-        setFormData({ coverImage: "", collectionUrl: "", projectName: "", fullWidth: false });
+        resetForm();
         onProjectAdded();
         setEditingProject(null);
         toast.success(editingProject ? 'Project updated successfully!' : 'Project added successfully!');
@@ -46,6 +59,8 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
     } catch (error) {
       console.error("Error:", error);
       toast.error(`An error occurred while ${editingProject ? 'updating' : 'adding'} the project`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,6 +86,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             onChange={(e) => handleChange("coverImage", e.target.value)}
             fullWidth
             required
+            variant="bordered"
           />
           <Input
             label="Collection URL"
@@ -79,6 +95,7 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             onChange={(e) => handleChange("collectionUrl", e.target.value)}
             fullWidth
             required
+            variant="bordered"
           />
           <Input
             label="Project Name"
@@ -87,27 +104,26 @@ const AddProjectCard = ({ onProjectAdded, editingProject, setEditingProject }) =
             onChange={(e) => handleChange("projectName", e.target.value)}
             fullWidth
             required
+            variant="bordered"
           />
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="fullWidth"
-              checked={formData.fullWidth}
-              onChange={(e) => handleChange("fullWidth", e.target.checked)}
-              className="mr-2"
-            />
-            <label htmlFor="fullWidth">Full Width</label>
-          </div>
+          <Checkbox
+            isSelected={formData.fullWidth}
+            onValueChange={(isChecked) => handleChange("fullWidth", isChecked)}
+          >
+            Full Width
+          </Checkbox>
         </div>
       </div>
-      <Button type="submit" color="primary">
-        {editingProject ? 'Update Project' : 'Add Project'}
-      </Button>
-      {editingProject && (
-        <Button color="secondary" onClick={() => setEditingProject(null)}>
-          Cancel Edit
+      <div className="flex space-x-4 mt-4">
+        <Button type="submit" color="primary" disabled={isLoading}>
+          {isLoading ? <Spinner size="sm" /> : (editingProject ? 'Update Project' : 'Add Project')}
         </Button>
-      )}
+        {editingProject && (
+          <Button color="secondary" onClick={() => setEditingProject(null)} disabled={isLoading}>
+            Cancel Edit
+          </Button>
+        )}
+      </div>
     </form>
   );
 };

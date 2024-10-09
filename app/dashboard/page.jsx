@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Inter } from "next/font/google";
-import { Card } from "@nextui-org/react";
+import { Card, Spinner } from "@nextui-org/react";
 import AddProjectCard from "../components/AddProjectCard";
 import ProjectList from "../components/ProjectList";
 import { Toaster } from 'react-hot-toast';
@@ -12,12 +12,14 @@ const inter = Inter({ subsets: ['latin'] });
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchProjects();
   }, []);
 
   const fetchProjects = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/projects");
       if (response.ok) {
@@ -28,6 +30,8 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,11 +53,17 @@ const Dashboard = () => {
           </Card>
           <Card className="p-6">
             <h2 className="text-2xl font-semibold mb-4">Current Projects</h2>
-            <ProjectList 
-              projects={projects} 
-              onProjectUpdated={fetchProjects} 
-              setEditingProject={setEditingProject}
-            />
+            {isLoading ? (
+              <div className="flex justify-center">
+                <Spinner size="lg" />
+              </div>
+            ) : (
+              <ProjectList 
+                projects={projects} 
+                onProjectUpdated={fetchProjects} 
+                setEditingProject={setEditingProject}
+              />
+            )}
           </Card>
         </div>
       </div>

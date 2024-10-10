@@ -3,6 +3,7 @@ import { Newsreader } from "next/font/google";
 import { Nunito_Sans } from "next/font/google";
 import { Arimo } from "next/font/google";
 import { NextUIProvider } from "@nextui-org/react";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Head from "next/head";
 
@@ -74,7 +75,18 @@ export default function RootLayout({ children }) {
       <body
         className={`${inter.variable} ${newsreader.variable} ${nunitosans.variable} ${arimo.variable}`}
       >
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                fontFamily: "var(--inter)",
+                fontSize: "14px"
+              },
+            }}
+          />
+        </NextUIProvider>
       </body>
     </html>
   );

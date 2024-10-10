@@ -1,7 +1,4 @@
 import { Inter } from "next/font/google";
-import { Newsreader } from "next/font/google";
-import { Nunito_Sans } from "next/font/google";
-import { Arimo } from "next/font/google";
 import { NextUIProvider } from "@nextui-org/react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -10,24 +7,6 @@ import Head from "next/head";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--inter",
-  weight: "variable",
-});
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  variable: "--newsreader",
-  weight: "variable",
-});
-
-const nunitosans = Nunito_Sans({
-  subsets: ["latin"],
-  variable: "--nunitosans",
-  weight: "variable",
-});
-
-const arimo = Arimo({
-  subsets: ["latin"],
-  variable: "--arimo",
   weight: "variable",
 });
 
@@ -72,9 +51,7 @@ export default function RootLayout({ children }) {
         <meta name="country-name" content={metadata.openGraph.countryName} />
         <meta name="email" content={metadata.openGraph.emails} />
       </Head>
-      <body
-        className={`${inter.variable} ${newsreader.variable} ${nunitosans.variable} ${arimo.variable}`}
-      >
+      <body className={`${inter.variable}`}>
         <NextUIProvider>
           {children}
           <Toaster
@@ -82,7 +59,7 @@ export default function RootLayout({ children }) {
             toastOptions={{
               style: {
                 fontFamily: "var(--inter)",
-                fontSize: "14px"
+                fontSize: "14px",
               },
             }}
           />

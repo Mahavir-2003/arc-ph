@@ -6,7 +6,7 @@ import AddProjectCard from "../components/AddProjectCard";
 import ProjectList from "../components/ProjectList";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
-import { HelpCircle, ExternalLink } from "lucide-react";
+import { HelpCircle, ExternalLink, LogOut } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 
 const SeeDocs = () => {
@@ -24,15 +24,17 @@ const SeeDocs = () => {
   ];
 
   const tooltipContent = (
-    <div className="p-5 inter rounded-lg max-w-md">
-      <h3 className="text-emerald-800 font-semibold mb-4 text-lg">
+    <div className="p-3 sm:p-5 inter rounded-lg max-w-md">
+      <h3 className="text-emerald-800 font-semibold mb-2 sm:mb-4 text-base sm:text-lg">
         Cloudinary Collections Help
       </h3>
-      <p className="text-emerald-700 mb-3">Example links:</p>
-      <div className="space-y-4">
+      <p className="text-emerald-700 mb-2 sm:mb-3 text-sm sm:text-base">
+        Example links:
+      </p>
+      <div className="space-y-2 sm:space-y-4">
         {exampleLinks.map(({ label, url }) => (
-          <div key={label} className="flex flex-col gap-2">
-            <span className="px-3 py-1.5 text-emerald-800 rounded-full font-bold text-sm inline-block w-max">
+          <div key={label} className="flex flex-col gap-1 sm:gap-2">
+            <span className="px-2 sm:px-3 py-1 sm:py-1.5 text-emerald-800 rounded-full font-bold text-xs sm:text-sm inline-block w-max">
               {label}
             </span>
             <div className="relative group">
@@ -40,7 +42,7 @@ const SeeDocs = () => {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="cursor-pointer px-3 py-2 text-emerald-800 rounded-lg text-sm break-all hover:bg-emerald-300 transition-colors duration-200 block"
+                className="cursor-pointer px-2 sm:px-3 py-1 sm:py-2 text-emerald-800 rounded-lg text-xs sm:text-sm break-all hover:bg-emerald-300 transition-colors duration-200 block"
               >
                 {url}
               </p>
@@ -52,11 +54,12 @@ const SeeDocs = () => {
   );
 
   const SeeDocsLinkClasses = `
-    inline-flex items-center px-4 py-2 rounded-full
+    inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 rounded-full
     text-green-800 bg-green-200
     hover:bg-green-300
     transition-all duration-300 ease-in-out transform hover:scale-105
     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
+    text-xs sm:text-sm
   `;
 
   return (
@@ -71,22 +74,23 @@ const SeeDocs = () => {
         className={SeeDocsLinkClasses}
         aria-label="See Documentation"
       >
-        <HelpCircle size={16} className="mr-2" />
+        <HelpCircle size={14} className="mr-1 sm:mr-2" />
         See Docs
       </button>
     </Tooltip>
   );
 };
 
-const CloudinaryLinkClasses = `
-    inline-flex items-center px-4 py-2 rounded-full
+const CloudinaryDocs = () => {
+  const CloudinaryLinkClasses = `
+    inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 rounded-full
     text-blue-800 bg-blue-200
     hover:bg-blue-300
     transition-all duration-300 ease-in-out transform hover:scale-105
     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+    text-xs sm:text-sm
   `;
 
-const CloudinaryDocs = () => {
   return (
     <Link
       href="https://cloudinary.com/documentation/dam_folders_collections_sharing"
@@ -94,7 +98,7 @@ const CloudinaryDocs = () => {
       rel="noopener noreferrer"
       className={CloudinaryLinkClasses}
     >
-      <ExternalLink size={16} className="mr-2" />
+      <ExternalLink size={14} className="mr-1 sm:mr-2" />
       Cloudinary Docs
     </Link>
   );
@@ -224,7 +228,7 @@ const Dashboard = () => {
   if (!isAuthenticated) {
     return (
       <div
-        className={`inter bg-[#efebe0] min-h-screen p-8 flex justify-center items-center`}
+        className={`inter bg-[#efebe0] min-h-screen p-2 sm:p-8 flex justify-center items-center`}
       >
         <LoginForm onLoginSuccess={handleLoginSuccess} />
       </div>
@@ -232,41 +236,65 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`inter bg-[#efebe0] min-h-screen p-8`}>
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-center">Dashboard</h1>
-          <div className="flex items-center space-x-4">
+    <div className={`inter bg-[#efebe0] min-h-screen p-2 sm:p-8`}>
+      <div className="max-w-8xl mx-auto h-full flex flex-col">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 space-y-4 sm:space-y-0">
+          <h1 className="text-3xl sm:text-4xl font-bold text-center sm:text-left">
+            Dashboard
+          </h1>
+          <div className="flex flex-wrap justify-center sm:justify-end items-center gap-2 sm:gap-4">
             <SeeDocs />
             <CloudinaryDocs />
-            <Button onClick={handleLogout} color="danger">
+            <Button
+              onClick={handleLogout}
+              color="danger"
+              variant="light"
+              startContent={<LogOut size={16} />}
+              className="text-sm px-3 py-1.5"
+            >
               Logout
             </Button>
           </div>
         </div>
-        <div className="space-y-8">
-          <Card className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 flex-grow">
+          {" "}
+          {/* Added flex-grow */}
+          <Card className="p-4 sm:p-6 h-full flex flex-col">
+            {" "}
+            {/* Added flex flex-col */}
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
               {editingProject ? "Edit Project" : "Add New Project"}
             </h2>
-            <AddProjectCard
-              onProjectSubmit={handleProjectSubmit}
-              editingProject={editingProject}
-              setEditingProject={setEditingProject}
-            />
+            <div className="flex-grow overflow-auto">
+              {" "}
+              {/* Added wrapper with flex-grow and overflow-auto */}
+              <AddProjectCard
+                onProjectSubmit={handleProjectSubmit}
+                editingProject={editingProject}
+                setEditingProject={setEditingProject}
+              />
+            </div>
           </Card>
-          <Card className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">Current Projects</h2>
+          <Card className="p-4 sm:p-6 h-full flex flex-col">
+            {" "}
+            {/* Added flex flex-col */}
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
+              Current Projects
+            </h2>
             {isProjectsLoading ? (
-              <div className="flex justify-center items-center h-40">
+              <div className="flex justify-center items-center h-32 sm:h-40">
                 <Spinner size="lg" />
               </div>
             ) : (
-              <ProjectList
-                projects={projects}
-                onProjectUpdated={fetchProjects}
-                setEditingProject={setEditingProject}
-              />
+              <div className="flex-grow overflow-auto">
+                {" "}
+                {/* Added wrapper with flex-grow and overflow-auto */}
+                <ProjectList
+                  projects={projects}
+                  onProjectUpdated={fetchProjects}
+                  setEditingProject={setEditingProject}
+                />
+              </div>
             )}
           </Card>
         </div>

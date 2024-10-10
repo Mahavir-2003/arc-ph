@@ -21,7 +21,7 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(projects);
   const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 2;
+  const projectsPerPage = 5;
 
   const showToast = useToast();
 
@@ -70,31 +70,36 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
   const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      <Input
-        clearable
-        contentLeft={<Search size={16} />}
-        placeholder="Search projects..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4"
-        variant="bordered"
-      />
-      {currentProjects.map((project) => (
-        <ProjectCard
-          key={project._id}
-          project={project}
-          onEdit={setEditingProject}
-          onDelete={handleDeleteClick}
-          deletingId={deletingId}
+    <div className="flex flex-col h-full">
+      <div className="sticky top-0 bg-white z-10 pb-4">
+        <Input
+          clearable
+          contentLeft={<Search size={16} />}
+          placeholder="Search projects..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-4"
+          variant="bordered"
         />
-      ))}
-      <Pagination
-        total={Math.ceil(filteredProjects.length / projectsPerPage)}
-        page={currentPage}
-        onChange={setCurrentPage}
-        className="mt-4"
-      />
+      </div>
+      <div className="space-y-8 flex-grow overflow-auto">
+        {currentProjects.map((project) => (
+          <ProjectCard
+            key={project._id}
+            project={project}
+            onEdit={setEditingProject}
+            onDelete={handleDeleteClick}
+            deletingId={deletingId}
+          />
+        ))}
+      </div>
+      <div className="sticky bottom-0 bg-white pt-4 pb-6 flex justify-center">
+        <Pagination
+          total={Math.ceil(filteredProjects.length / projectsPerPage)}
+          page={currentPage}
+          onChange={setCurrentPage}
+        />
+      </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="inter">
         <ModalContent>
           {(onClose) => (

@@ -127,7 +127,11 @@ const AddProjectCard = ({
               onOpenChange={(open) => setIsTooltipOpen(open)}
             >
               <button
-                onClick={() => setIsTooltipOpen(!isTooltipOpen)}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsTooltipOpen(!isTooltipOpen);
+                }}
                 className="absolute top-2 right-2 z-50 p-2 bg-emerald-200 rounded-full"
                 aria-label="Image Preview Notice"
               >

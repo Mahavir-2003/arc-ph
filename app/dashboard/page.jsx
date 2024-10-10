@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { Card, Spinner, Button, Tooltip } from "@nextui-org/react";
 import AddProjectCard from "../components/AddProjectCard";
-import ProjectList from "../components/ProjectList";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
 import { HelpCircle, ExternalLink, LogOut } from "lucide-react";
 import { useToast } from "../hooks/useToast";
+import dynamic from 'next/dynamic';
 
 const SeeDocs = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
@@ -257,17 +257,11 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 flex-grow">
-          {" "}
-          {/* Added flex-grow */}
           <Card className="p-4 sm:p-6 h-full flex flex-col">
-            {" "}
-            {/* Added flex flex-col */}
             <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
               {editingProject ? "Edit Project" : "Add New Project"}
             </h2>
             <div className="flex-grow overflow-auto">
-              {" "}
-              {/* Added wrapper with flex-grow and overflow-auto */}
               <AddProjectCard
                 onProjectSubmit={handleProjectSubmit}
                 editingProject={editingProject}
@@ -276,8 +270,6 @@ const Dashboard = () => {
             </div>
           </Card>
           <Card className="p-4 sm:p-6 h-full flex flex-col">
-            {" "}
-            {/* Added flex flex-col */}
             <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
               Current Projects
             </h2>
@@ -287,8 +279,6 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="flex-grow overflow-auto">
-                {" "}
-                {/* Added wrapper with flex-grow and overflow-auto */}
                 <ProjectList
                   projects={projects}
                   onProjectUpdated={fetchProjects}
@@ -302,5 +292,7 @@ const Dashboard = () => {
     </div>
   );
 };
+
+const ProjectList = dynamic(() => import('../components/ProjectList'));
 
 export default Dashboard;

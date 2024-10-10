@@ -9,7 +9,6 @@ const AddProjectCard = ({
   onProjectSubmit,
   editingProject,
   setEditingProject,
-  setHighlightDocs,
 }) => {
   const [formData, setFormData] = useState({
     coverImage: "",
@@ -54,8 +53,6 @@ const AddProjectCard = ({
         "Invalid Cloudinary collection URL. Please check the documentation and try again.",
         "error"
       );
-      setHighlightDocs(true);
-      setTimeout(() => setHighlightDocs(false), 5000);
       return false;
     }
 
@@ -64,8 +61,6 @@ const AddProjectCard = ({
         "Invalid Cloudinary image URL. Please check the documentation and try again.",
         "error"
       );
-      setHighlightDocs(true);
-      setTimeout(() => setHighlightDocs(false), 5000);
       return false;
     }
 
@@ -83,12 +78,6 @@ const AddProjectCard = ({
       await onProjectSubmit(formData);
       resetForm();
       setEditingProject(null);
-      showToast(
-        editingProject
-          ? "Project updated successfully!"
-          : "Project added successfully!",
-        "success"
-      );
     } catch (error) {
       console.error("Error:", error);
       showToast(

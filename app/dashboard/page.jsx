@@ -6,46 +6,99 @@ import AddProjectCard from "../components/AddProjectCard";
 import ProjectList from "../components/ProjectList";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, ExternalLink } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 
-const DocsLink = ({ highlight }) => (
-  <div className="inter">
+const SeeDocs = () => {
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  const exampleLinks = [
+    {
+      label: "Collection URL",
+      url: "https://collection.cloudinary.com/your-cloud-name/12345abcde67890fghij12345abcde67",
+    },
+    {
+      label: "Image URL",
+      url: "https://res.cloudinary.com/your-cloud-name/image/upload/v1234567890/sample.jpg",
+    },
+  ];
+
+  const tooltipContent = (
+    <div className="p-5 inter rounded-lg max-w-md">
+      <h3 className="text-emerald-800 font-semibold mb-4 text-lg">
+        Cloudinary Collections Help
+      </h3>
+      <p className="text-emerald-700 mb-3">Example links:</p>
+      <div className="space-y-4">
+        {exampleLinks.map(({ label, url }) => (
+          <div key={label} className="flex flex-col gap-2">
+            <span className="px-3 py-1.5 text-emerald-800 rounded-full font-bold text-sm inline-block w-max">
+              {label}
+            </span>
+            <div className="relative group">
+              <p
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer px-3 py-2 text-emerald-800 rounded-lg text-sm break-all hover:bg-emerald-300 transition-colors duration-200 block"
+              >
+                {url}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const SeeDocsLinkClasses = `
+    inline-flex items-center px-4 py-2 rounded-full
+    text-green-800 bg-green-200
+    hover:bg-green-300
+    transition-all duration-300 ease-in-out transform hover:scale-105
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
+  `;
+
+  return (
     <Tooltip
-      content={
-        <div className="p-2 inter">
-          <p>Click here if you need help with Cloudinary collections.</p>
-          <p className="mt-2">Example links:</p>
-          <ul className="list-disc list-inside mt-1">
-            <li>
-              Collection URL:
-              https://collection.cloudinary.com/your-cloud-name/12345abcde67890fghij12345abcde67
-            </li>
-            <li>
-              Image URL:
-              https://res.cloudinary.com/your-cloud-name/image/upload/v1234567890/sample.jpg
-            </li>
-          </ul>
-        </div>
-      }
+      content={tooltipContent}
       placement="bottom"
+      isOpen={isTooltipOpen}
+      onOpenChange={(open) => setIsTooltipOpen(open)}
     >
-      <Link
-        href="https://cloudinary.com/documentation/dam_folders_collections_sharing"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`inline-flex items-center px-3 py-1.5 rounded-full ${
-          highlight
-            ? "bg-yellow-300 text-yellow-800 animate-pulse"
-            : "bg-blue-100 text-blue-800"
-        } hover:bg-blue-200 transition-all duration-300 ease-in-out transform hover:scale-105`}
+      <button
+        onClick={() => setIsTooltipOpen(!isTooltipOpen)}
+        className={SeeDocsLinkClasses}
+        aria-label="See Documentation"
       >
         <HelpCircle size={16} className="mr-2" />
-        Need Help?
-      </Link>
+        See Docs
+      </button>
     </Tooltip>
-  </div>
-);
+  );
+};
+
+const CloudinaryLinkClasses = `
+    inline-flex items-center px-4 py-2 rounded-full
+    text-blue-800 bg-blue-200
+    hover:bg-blue-300
+    transition-all duration-300 ease-in-out transform hover:scale-105
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+  `;
+
+const CloudinaryDocs = () => {
+  return (
+    <Link
+      href="https://cloudinary.com/documentation/dam_folders_collections_sharing"
+      target="_blank"
+      rel="noopener noreferrer"
+      className={CloudinaryLinkClasses}
+    >
+      <ExternalLink size={16} className="mr-2" />
+      Cloudinary Docs
+    </Link>
+  );
+};
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -53,7 +106,6 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [highlightDocs, setHighlightDocs] = useState(false);
 
   const showToast = useToast();
 
@@ -147,10 +199,6 @@ const Dashboard = () => {
           }`,
           "error"
         );
-        if (errorData.error.includes("Invalid URL")) {
-          setHighlightDocs(true);
-          setTimeout(() => setHighlightDocs(false), 5000);
-        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -189,7 +237,8 @@ const Dashboard = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-center">Dashboard</h1>
           <div className="flex items-center space-x-4">
-            <DocsLink highlight={highlightDocs} />
+            <SeeDocs />
+            <CloudinaryDocs />
             <Button onClick={handleLogout} color="danger">
               Logout
             </Button>
@@ -204,7 +253,6 @@ const Dashboard = () => {
               onProjectSubmit={handleProjectSubmit}
               editingProject={editingProject}
               setEditingProject={setEditingProject}
-              setHighlightDocs={setHighlightDocs}
             />
           </Card>
           <Card className="p-6">

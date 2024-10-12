@@ -40,8 +40,20 @@ const Crousel = () => {
     {
       id: 6,
       number: "006",
-      url: "https://ucarecdn.com/7d156911-fb15-4e43-bb17-d92540b38c79/Floorplansample.png",
-      info: "Floor Plan",
+      url: "https://res.cloudinary.com/dblp9jhyj/image/upload/v1728724911/21_1_rjgp6p.jpg",
+      info: "Photography",
+    },
+    {
+      id: 7,
+      number: "007",
+      url: "https://res.cloudinary.com/dblp9jhyj/image/upload/v1728724721/Floor_plan_lot_741-742-743_Rudra_pwm67r.jpg",
+      info: "Floor Plan B/W",
+    },
+    {
+      id: 8,
+      number: "008",
+      url: "https://res.cloudinary.com/dblp9jhyj/image/upload/v1728724721/Tapioca_Drive_R1_e6obun.jpg",
+      info: "Floor Plan Color",
     },
   ];
 
@@ -57,10 +69,7 @@ const Crousel = () => {
         { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" },
         "-=0.5"
       )
-      .to(
-        ".proj-images",
-        { scale: 1, duration: 1, ease: "bounce.in" },
-      );
+      .to(".proj-images", { scale: 1, duration: 1, ease: "bounce.in" });
 
     return () => {
       tl.kill();
@@ -106,7 +115,7 @@ const Crousel = () => {
               src={image.url}
               alt={image.info}
               layout="fill"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
             />
             <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <p className="text-white text-2xl">View Full Image</p>

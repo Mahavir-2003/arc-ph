@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import Lenis from "lenis";
 import Navbar from "../components/Navbar-port";
 import Footer from "../components/Footer";
 
@@ -12,6 +13,24 @@ const Portfolio = () => {
 
   useEffect(() => {
     fetchProjects();
+
+    const lenis = new Lenis();
+
+    lenis.on("scroll", (e) => {
+      console.log(e);
+    });
+
+    lenis.on("scroll", ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+    };
   }, []);
 
   const fetchProjects = async () => {
@@ -77,65 +96,65 @@ const Portfolio = () => {
         },
       });
       tl.from(container, {
-        yPercent: -20, // reduce yPercent values
+        yPercent: -20,
         ease: "power1.inOut",
       }).to(container, {
-        yPercent: 20, // reduce yPercent values
+        yPercent: 20,
         ease: "power1.inOut",
       });
     });
   }, []);
 
   return (
-    <div className="inter bg-[#efebe0] min-h-screen">
-      <Navbar />
-      <div className="flex h-1/2 p-5 main-text">
-        <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-black pt-10 md:pt-24 pb-16 tracking-wide scale-y-105">
-          Portfolio - Projects
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
-        {projects.map((project) => (
-          <div
-            key={project._id}
-            className={`relative overflow-hidden group ${
-              project.fullWidth
-                ? "md:col-span-2 h-[48vh] md:h-[64vh]"
-                : "h-[30vh] md:h-[40vh]"
-            }`}
-          >
-            <Link
-              href={project.collectionUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title="View in full screen"
+    <>
+      <main className="inter bg-[#efebe0] min-h-screen">
+        <Navbar />
+        <div className="flex h-1/2 p-5 main-text">
+          <h1 className="text-3xl md:text-5xl lg:text-[6.45rem] font-semibold text-black pt-10 md:pt-24 pb-16 tracking-wide scale-y-105">
+            Portfolio - Projects
+          </h1>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
+          {projects.map((project) => (
+            <div
+              key={project._id}
+              className={`relative overflow-hidden group ${
+                project.fullWidth
+                  ? "md:col-span-2 h-[48vh] md:h-[64vh]"
+                  : "h-[30vh] md:h-[40vh]"
+              }`}
             >
-              <Image
-                className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
-                src={project.coverImage}
-                alt={project.projectName}
-                layout="fill"
-                style={{ objectFit: 'cover' }}
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <p className="text-white text-xl lg:text-2xl">
-                  Visit collection
-                </p>
+              <Link
+                href={project.collectionUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View in full screen"
+              >
+                <Image
+                  className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
+                  src={project.coverImage}
+                  alt={project.projectName}
+                  layout="fill"
+                  style={{ objectFit: 'cover' }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-xl lg:text-2xl">
+                    Visit collection
+                  </p>
+                </div>
+              </Link>
+              <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
+                {project.projectName}
               </div>
-            </Link>
-            <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
-              {project.projectName}
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="text-black text-xl font-medium p-5 right-0 text-right info">
-        More works coming soon ...
-      </div>
-      {/* spacer */}
-      <div className="h-10"></div>
-      <Footer />
-    </div>
+          ))}
+        </div>
+        <div className="text-black text-xl font-medium p-5 right-0 text-right info">
+          More works coming soon ...
+        </div>
+        <Footer />
+      </main>
+    </>
   );
 };
 

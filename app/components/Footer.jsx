@@ -5,14 +5,14 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <div>
-      <div className="relative h-[80vh] overflow-hidden">
+      <div className="relative h-[92vh] overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            className="object-cover image-container h-[100vh] py-2"
-            src="https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            className="object-cover image-container h-[115vh] py-2"
+            src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Parallax Image"
             layout="fill"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: "cover" }}
             quality={100}
           />
         </div>

@@ -7,15 +7,21 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 const Crousel = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const response = await fetch('/api/carousel');
+        if (!response.ok) throw new Error('Failed to fetch images');
         const data = await response.json();
-        setImages(data);
+        setImages(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Failed to fetch carousel images:', error);
+        setError('Failed to load images');
+        setImages([]);
       } finally {
         setLoading(false);
       }
@@ -25,47 +31,71 @@ const Crousel = () => {
   }, []);
 
   useEffect(() => {
-    const tl = gsap.timeline({});
+    if (!loading && images.length > 0) {
+      const tl = gsap.timeline({});
 
-    tl.set(".main-text", { opacity: 0, y: -100 })
-      .set(".image-grid", { opacity: 0, y: 100 })
-      .set(".proj-images", { scale: 1.1, delay: 0.5 })
-      .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" })
-      .to(
-        ".image-grid",
-        { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" },
-        "-=0.5"
-      )
-      .to(".proj-images", { scale: 1, duration: 1, ease: "bounce.in" });
+      tl.set(".main-text", { opacity: 0, y: -100 })
+        .set(".image-grid", { opacity: 0, y: 100 })
+        .set(".proj-images", { scale: 1.1, delay: 0.5 })
+        .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" })
+        .to(
+          ".image-grid",
+          { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" },
+          "-=0.5"
+        )
+        .to(".proj-images", { scale: 1, duration: 1, ease: "bounce.in" });
 
-    return () => {
-      tl.kill();
-    };
-  }, []);
+      return () => {
+        tl.kill();
+      };
+    }
+  }, [loading, images]);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    if (!loading && images.length > 0) {
+      gsap.registerPlugin(ScrollTrigger);
 
-    gsap.utils.toArray(".image-container").forEach(function (container) {
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          scrub: 0.5,
-          pin: false,
-        },
+      gsap.utils.toArray(".image-container").forEach(function (container) {
+        let tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            scrub: 0.5,
+            pin: false,
+          },
+        });
+        tl.from(container, {
+          yPercent: -20,
+          ease: "power1.inOut",
+        }).to(container, {
+          yPercent: 20,
+          ease: "power1.inOut",
+        });
       });
-      tl.from(container, {
-        yPercent: -20,
-        ease: "power1.inOut",
-      }).to(container, {
-        yPercent: 20,
-        ease: "power1.inOut",
-      });
-    });
-  }, []);
+    }
+  }, [loading, images]);
 
   if (loading) {
-    return <div className="flex justify-center items-center min-h-[50vh]">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh] text-red-600">
+        {error}
+      </div>
+    );
+  }
+
+  if (!images || images.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-[50vh] text-gray-600">
+        No images available
+      </div>
+    );
   }
 
   return (
@@ -73,7 +103,7 @@ const Crousel = () => {
       {images.map((image) => (
         <div
           key={image._id}
-          className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
+          className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group image-container"
         >
           <Link
             href={image.url}

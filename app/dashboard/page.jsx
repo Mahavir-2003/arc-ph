@@ -330,11 +330,7 @@ const Dashboard = () => {
             </div>
           </Tab>
           <Tab key="carousel" title="Carousel">
-            <Card>
-              <CardBody>
-                <CarouselManager />
-              </CardBody>
-            </Card>
+            <CarouselManager.Manager />
           </Tab>
         </Tabs>
       </div>

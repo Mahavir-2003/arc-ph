@@ -1,4 +1,4 @@
-import { Input, Checkbox } from "@nextui-org/react";
+import { Input, Checkbox } from "@heroui/react";
 
 const ProjectFormInputs = ({ formData, handleChange }) => {
   return (

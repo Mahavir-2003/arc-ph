@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Tooltip } from "@nextui-org/react";
+import { Input, Tooltip } from "@heroui/react";
 import { Info } from "lucide-react";
 
 const FormField = ({ label, name, value, onChange, error, required, type = "text", description }) => {

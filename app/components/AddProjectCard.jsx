@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Image, Tooltip } from "@nextui-org/react";
+import { Image, Tooltip } from "@heroui/react";
 import { useToast } from "../hooks/useToast";
 import ProjectFormInputs from "./ProjectFormInputs";
 import ProjectFormButtons from "./ProjectFormButtons";

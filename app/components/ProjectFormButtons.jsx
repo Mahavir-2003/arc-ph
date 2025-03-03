@@ -1,4 +1,4 @@
-import { Button, Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@heroui/react";
 
 const ProjectFormButtons = ({ isLoading, buttonLoading, editingProject, handleCancelEdit }) => {
   return (

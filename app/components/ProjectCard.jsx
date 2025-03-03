@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Spinner } from "@nextui-org/react";
+import { Button, Spinner } from "@heroui/react";
 import { Trash2, Pencil, ExternalLink, LayoutIcon, Calendar } from "lucide-react";
 
 const ProjectCard = ({ project, onEdit, onDelete, deletingId }) => {

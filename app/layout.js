@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Head from "next/head";
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
         <meta name="email" content={metadata.openGraph.emails} />
       </Head>
       <body className={`${inter.variable}`}>
-        <NextUIProvider>
+        <HeroUIProvider>
           {children}
           <Toaster
             position="top-right"
@@ -63,7 +63,7 @@ export default function RootLayout({ children }) {
               },
             }}
           />
-        </NextUIProvider>
+        </HeroUIProvider>
       </body>
     </html>
   );

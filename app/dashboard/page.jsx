@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Card, Spinner, Button, Tooltip } from "@nextui-org/react";
+import { Card, Spinner, Button, Tooltip } from "@heroui/react";
 import AddProjectCard from "../components/AddProjectCard";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";

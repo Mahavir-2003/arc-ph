@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { z } from "zod";
 import Image from "next/image";
 import Link from "next/link";
-import { Checkbox } from "@nextui-org/react";
+import { Checkbox } from "@heroui/react";
 import FormField from "../components/FormField";
 import { useToast } from "../hooks/useToast";
 import { Loader2 } from "lucide-react";

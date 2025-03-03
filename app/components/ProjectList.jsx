@@ -9,7 +9,7 @@ import {
   Input,
   Pagination,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Search } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 import ProjectCard from "./ProjectCard";

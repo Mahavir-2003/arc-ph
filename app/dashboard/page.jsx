@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Card, Spinner, Button, Tooltip } from "@heroui/react";
+import { Card, Spinner, Button, Tooltip, Tabs, Tab, CardBody } from "@heroui/react";
 import AddProjectCard from "../components/AddProjectCard";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
 import { HelpCircle, ExternalLink, LogOut } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 import dynamic from 'next/dynamic';
+import ProjectList from "../components/ProjectList";
+import CarouselManager from "../components/CarouselManager";
 
 const SeeDocs = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
@@ -38,12 +40,7 @@ const SeeDocs = () => {
               {label}
             </span>
             <div className="relative group">
-              <p
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cursor-pointer px-2 sm:px-3 py-1 sm:py-2 text-emerald-800 rounded-lg text-xs sm:text-sm break-all hover:bg-emerald-300 transition-colors duration-200 block"
-              >
+              <p className="cursor-pointer px-2 sm:px-3 py-1 sm:py-2 text-emerald-800 rounded-lg text-xs sm:text-sm break-all hover:bg-emerald-300 transition-colors duration-200 block">
                 {url}
               </p>
             </div>
@@ -55,11 +52,11 @@ const SeeDocs = () => {
 
   const SeeDocsLinkClasses = `
     inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 rounded-full
-    text-green-800 bg-green-200
-    hover:bg-green-300
+    text-emerald-800 bg-emerald-200
+    hover:bg-emerald-300
     transition-all duration-300 ease-in-out transform hover:scale-105
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500
-    text-xs sm:text-sm
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
+    text-xs sm:text-sm inter
   `;
 
   return (
@@ -74,7 +71,7 @@ const SeeDocs = () => {
         className={SeeDocsLinkClasses}
         aria-label="See Documentation"
       >
-        <HelpCircle size={14} className="mr-1 sm:mr-2" />
+        <HelpCircle size={14} className="mr-1.5" />
         See Docs
       </button>
     </Tooltip>
@@ -88,7 +85,7 @@ const CloudinaryDocs = () => {
     hover:bg-blue-300
     transition-all duration-300 ease-in-out transform hover:scale-105
     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-    text-xs sm:text-sm
+    text-xs sm:text-sm inter
   `;
 
   return (
@@ -98,9 +95,49 @@ const CloudinaryDocs = () => {
       rel="noopener noreferrer"
       className={CloudinaryLinkClasses}
     >
-      <ExternalLink size={14} className="mr-1 sm:mr-2" />
+      <ExternalLink size={14} className="mr-1.5" />
       Cloudinary Docs
     </Link>
+  );
+};
+
+const DocsLinks = () => {
+  const linkBaseClasses = `
+    inline-flex items-center px-3 sm:px-4 py-1 sm:py-2 rounded-full
+    transition-all duration-300 ease-in-out transform hover:scale-105
+    focus:outline-none focus:ring-2 focus:ring-offset-2
+    text-xs sm:text-sm inter
+  `;
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Link
+        href="https://cloudinary.com/documentation/image_upload_api_reference"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${linkBaseClasses} text-green-800 bg-green-200 hover:bg-green-300 focus:ring-green-500`}
+      >
+        <ExternalLink size={14} className="mr-1.5" />
+        Upload Guide
+      </Link>
+      <Tooltip
+        content={
+          <div className="p-3 max-w-xs">
+            <h3 className="font-semibold mb-2">URL Formats</h3>
+            <div className="space-y-2 text-sm">
+              <p><strong>Collection URL:</strong> https://collection.cloudinary.com/your-cloud-name/[hash]</p>
+              <p><strong>Image URL:</strong> https://res.cloudinary.com/your-cloud-name/image/upload/[version]/[file]</p>
+            </div>
+          </div>
+        }
+        placement="bottom"
+      >
+        <button className={`${linkBaseClasses} text-purple-800 bg-purple-200 hover:bg-purple-300 focus:ring-purple-500`}>
+          <HelpCircle size={14} className="mr-1.5" />
+          URL Guide
+        </button>
+      </Tooltip>
+    </div>
   );
 };
 
@@ -227,10 +264,11 @@ const Dashboard = () => {
 
   if (!isAuthenticated) {
     return (
-      <div
-        className={`inter bg-[#efebe0] min-h-screen p-2 sm:p-8 flex justify-center items-center`}
-      >
-        <LoginForm onLoginSuccess={handleLoginSuccess} />
+      <div className={`inter bg-[#efebe0] min-h-screen flex items-center justify-center p-4`}>
+        <Card className="w-full max-w-md p-6">
+          <h1 className="text-2xl font-bold mb-6 text-center">Dashboard Login</h1>
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
+        </Card>
       </div>
     );
   }
@@ -256,43 +294,52 @@ const Dashboard = () => {
             </Button>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 flex-grow">
-          <Card className="p-4 sm:p-6 h-full flex flex-col">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
-              {editingProject ? "Edit Project" : "Add New Project"}
-            </h2>
-            <div className="flex-grow overflow-auto">
-              <AddProjectCard
-                onProjectSubmit={handleProjectSubmit}
-                editingProject={editingProject}
-                setEditingProject={setEditingProject}
-              />
+        <Tabs aria-label="Options">
+          <Tab key="projects" title="Projects">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+              <Card className="p-4 sm:p-6 h-full flex flex-col">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
+                  {editingProject ? "Edit Project" : "Add New Project"}
+                </h2>
+                <div className="flex-grow overflow-auto">
+                  <AddProjectCard
+                    onProjectSubmit={handleProjectSubmit}
+                    editingProject={editingProject}
+                    setEditingProject={setEditingProject}
+                  />
+                </div>
+              </Card>
+              <Card className="p-4 sm:p-6 h-full flex flex-col">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
+                  Current Projects
+                </h2>
+                {isProjectsLoading ? (
+                  <div className="flex justify-center items-center h-32 sm:h-40">
+                    <Spinner size="lg" />
+                  </div>
+                ) : (
+                  <div className="flex-grow overflow-auto">
+                    <ProjectList
+                      projects={projects}
+                      onProjectUpdated={fetchProjects}
+                      setEditingProject={setEditingProject}
+                    />
+                  </div>
+                )}
+              </Card>
             </div>
-          </Card>
-          <Card className="p-4 sm:p-6 h-full flex flex-col">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
-              Current Projects
-            </h2>
-            {isProjectsLoading ? (
-              <div className="flex justify-center items-center h-32 sm:h-40">
-                <Spinner size="lg" />
-              </div>
-            ) : (
-              <div className="flex-grow overflow-auto">
-                <ProjectList
-                  projects={projects}
-                  onProjectUpdated={fetchProjects}
-                  setEditingProject={setEditingProject}
-                />
-              </div>
-            )}
-          </Card>
-        </div>
+          </Tab>
+          <Tab key="carousel" title="Carousel">
+            <Card>
+              <CardBody>
+                <CarouselManager />
+              </CardBody>
+            </Card>
+          </Tab>
+        </Tabs>
       </div>
     </div>
   );
 };
-
-const ProjectList = dynamic(() => import('../components/ProjectList'));
 
 export default Dashboard;

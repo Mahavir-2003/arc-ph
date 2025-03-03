@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Input, Button } from "@heroui/react";
+import { Input, Button } from "@heroui/react";
 import { useToast } from "../hooks/useToast";
 
 const LoginForm = ({ onLoginSuccess }) => {
@@ -11,8 +11,9 @@ const LoginForm = ({ onLoginSuccess }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
-      const response = await fetch("/api/auth", {
+      const response = await fetch("/api/check-auth", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,56 +21,63 @@ const LoginForm = ({ onLoginSuccess }) => {
         body: JSON.stringify({ username, password }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        showToast("Login successful", "success");
         localStorage.setItem("isLoggedIn", "true");
-        onLoginSuccess();
+        showToast("Login successful", "success");
+        onLoginSuccess?.();
       } else {
-        showToast("Invalid credentials", "error");
+        showToast(data.error || "Invalid credentials", "error");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Login error:", error);
       showToast("An error occurred during login", "error");
     } finally {
       setIsLoading(false);
+      setPassword(""); // Clear password on error
     }
   };
 
   return (
-    <Card className="p-6 w-full max-w-md">
-      <h1 className="text-2xl font-bold mb-4 text-center">Dashboard Login</h1>
-      <form onSubmit={handleLogin} className="space-y-4">
-        <Input
-          type="text"
-          label="Username"
-          placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          variant="bordered"
-          color="primary"
-        />
-        <Input
-          type="password"
-          label="Password"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          variant="bordered"
-          color="primary"
-        />
-        <Button
-          type="submit"
-          color="primary"
-          fullWidth
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          {isLoading ? "Logging in..." : "Login"}
-        </Button>
-      </form>
-    </Card>
+    <form onSubmit={handleLogin} className="space-y-6">
+      <Input
+        type="text"
+        label="Username"
+        placeholder="Enter username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        required
+        variant="bordered"
+        color="primary"
+        size="lg"
+        className="w-full"
+        autoComplete="username"
+      />
+      <Input
+        type="password"
+        label="Password"
+        placeholder="Enter password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        variant="bordered"
+        color="primary"
+        size="lg"
+        className="w-full"
+        autoComplete="current-password"
+      />
+      <Button
+        type="submit"
+        color="primary"
+        size="lg"
+        isLoading={isLoading}
+        disabled={isLoading}
+        className="w-full"
+      >
+        {isLoading ? "Logging in..." : "Login"}
+      </Button>
+    </form>
   );
 };
 

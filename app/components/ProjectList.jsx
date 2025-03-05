@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Modal,
   ModalContent,
@@ -7,12 +7,13 @@ import {
   ModalFooter,
   useDisclosure,
   Input,
-  Pagination,
   Button,
+  Switch,
 } from "@heroui/react";
-import { Search } from "lucide-react";
+import { Search, GripVertical } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 import ProjectCard from "./ProjectCard";
+import DraggableProjectList from "./DraggableProjectList";
 
 const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
   const [deletingId, setDeletingId] = useState(null);
@@ -20,18 +21,24 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProjects, setFilteredProjects] = useState(projects);
-  const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 5;
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const showToast = useToast();
 
   useEffect(() => {
+    if (!projects) return;
+
     const results = projects.filter((project) =>
       project.projectName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProjects(results);
-    setCurrentPage(1);
   }, [searchTerm, projects]);
+
+  // Memoize the filtered projects to prevent unnecessary re-renders
+  const currentFilteredProjects = useMemo(() => {
+    if (!filteredProjects) return [];
+    return filteredProjects;
+  }, [filteredProjects]);
 
   const handleDeleteClick = (project) => {
     setProjectToDelete(project);
@@ -51,53 +58,81 @@ const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {
 
       if (response.ok) {
         onProjectUpdated();
-        showToast("Project deleted successfully", 'success');
+        showToast("Project deleted successfully", "success");
       } else {
         const errorData = await response.json();
-        showToast(`Failed to delete project: ${errorData.error}`, 'error');
+        showToast(`Failed to delete project: ${errorData.error}`, "error");
       }
     } catch (error) {
       console.error("Error:", error);
-      showToast("An error occurred while deleting the project", 'error');
+      showToast("An error occurred while deleting the project", "error");
     } finally {
       setDeletingId(null);
       setProjectToDelete(null);
     }
   };
 
-  const indexOfLastProject = currentPage * projectsPerPage;
-  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+  const handleReorder = async (reorderedProjects) => {
+    try {
+      const response = await fetch("/api/projects/reorder", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ projects: reorderedProjects }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update project order");
+      }
+
+      onProjectUpdated();
+    } catch (error) {
+      console.error("Error reordering projects:", error);
+      throw error;
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
       <div className="sticky top-0 bg-white z-10 pb-4">
-        <Input
-          clearable
-          contentLeft={<Search size={16} />}
-          placeholder="Search projects..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4"
-          variant="bordered"
-        />
+        <div className="flex items-center gap-4">
+          <div className="flex-1">
+            <Input
+              clearable
+              contentLeft={<Search size={16} />}
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              variant="bordered"
+            />
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Switch
+              size="sm"
+              isSelected={isEditMode}
+              onValueChange={setIsEditMode}
+              aria-label="Toggle drag mode"
+              startContent={
+                <GripVertical
+                  size={14}
+                  className={isEditMode ? "text-white" : "text-gray-400"}
+                />
+              }
+            >
+              Drag
+            </Switch>
+          </div>
+        </div>
       </div>
-      <div className="space-y-8 flex-grow overflow-auto">
-        {currentProjects.map((project) => (
-          <ProjectCard
-            key={project._id}
-            project={project}
-            onEdit={setEditingProject}
-            onDelete={handleDeleteClick}
-            deletingId={deletingId}
-          />
-        ))}
-      </div>
-      <div className="sticky bottom-0 bg-white pt-4 pb-6 flex justify-center">
-        <Pagination
-          total={Math.ceil(filteredProjects.length / projectsPerPage)}
-          page={currentPage}
-          onChange={setCurrentPage}
+      <div className="flex-grow overflow-auto">
+        <DraggableProjectList
+          projects={currentFilteredProjects}
+          onReorder={handleReorder}
+          onEdit={setEditingProject}
+          onDelete={handleDeleteClick}
+          deletingId={deletingId}
+          isEditMode={isEditMode}
         />
       </div>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="inter">

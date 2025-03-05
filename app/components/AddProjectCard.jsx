@@ -9,12 +9,14 @@ const AddProjectCard = ({
   onProjectSubmit,
   editingProject,
   setEditingProject,
+  totalProjects = 0,
 }) => {
   const [formData, setFormData] = useState({
     coverImage: "",
     collectionUrl: "",
     projectName: "",
     fullWidth: false,
+    order: totalProjects + 1,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(null);
@@ -27,7 +29,7 @@ const AddProjectCard = ({
     } else {
       resetForm();
     }
-  }, [editingProject]);
+  }, [editingProject, totalProjects]);
 
   const resetForm = () => {
     setFormData({
@@ -35,6 +37,7 @@ const AddProjectCard = ({
       collectionUrl: "",
       projectName: "",
       fullWidth: false,
+      order: totalProjects + 1,
     });
   };
 
@@ -146,7 +149,11 @@ const AddProjectCard = ({
         )}
       </div>
       <div className="space-y-6">
-        <ProjectFormInputs formData={formData} handleChange={handleChange} />
+        <ProjectFormInputs 
+          formData={formData} 
+          handleChange={handleChange}
+          totalProjects={totalProjects}
+        />
         <ProjectFormButtons
           isLoading={isLoading}
           buttonLoading={buttonLoading}

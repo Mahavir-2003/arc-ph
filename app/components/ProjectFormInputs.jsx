@@ -1,6 +1,6 @@
 import { Input, Checkbox } from "@heroui/react";
 
-const ProjectFormInputs = ({ formData, handleChange }) => {
+const ProjectFormInputs = ({ formData, handleChange, totalProjects = 0 }) => {
   return (
     <div className="w-full md:w-2/3 space-y-4">
       <Input
@@ -28,6 +28,17 @@ const ProjectFormInputs = ({ formData, handleChange }) => {
         placeholder="Enter project name"
         value={formData.projectName}
         onChange={(e) => handleChange("projectName", e.target.value)}
+        fullWidth
+        required
+        variant="bordered"
+        className="break-words"
+      />
+      <Input
+        type="number"
+        label="Display Order"
+        placeholder="Enter display order"
+        value={formData.order || totalProjects + 1}
+        onChange={(e) => handleChange("order", parseInt(e.target.value) || totalProjects + 1)}
         fullWidth
         required
         variant="bordered"

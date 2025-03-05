@@ -1,74 +1,113 @@
+import { Button, Tooltip, Chip } from "@heroui/react";
+import { Pencil, Trash2, GripVertical, ExternalLink, LayoutIcon, Calendar } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Spinner } from "@heroui/react";
-import { Trash2, Pencil, ExternalLink, LayoutIcon, Calendar } from "lucide-react";
 
-const ProjectCard = ({ project, onEdit, onDelete, deletingId }) => {
+const ProjectCard = ({ 
+  project, 
+  onEdit, 
+  onDelete, 
+  deletingId, 
+  isDraggable,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  index 
+}) => {
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex flex-col sm:flex-row w-full h-auto sm:h-40">
-      <div className="w-full sm:w-1/3 h-48 sm:h-full relative p-2">
-        <div className="relative w-full h-full rounded-lg overflow-hidden">
+    <div
+      draggable={isDraggable}
+      onDragStart={(e) => onDragStart?.(e, index)}
+      onDragEnd={() => onDragEnd?.()}
+      onDragOver={(e) => onDragOver?.(e, index)}
+      className={`bg-white rounded-xl border-2 relative ${
+        isDraggable ? 'cursor-grab active:cursor-grabbing hover:border-blue-400' : ''
+      } ${isDraggable ? 'border-blue-200' : 'border-gray-200'} shadow-md p-6 transition-all duration-300 transform`}
+    >
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-lg font-semibold truncate flex-grow">{project.projectName}</h3>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Tooltip content="Edit Project">
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                onPress={() => onEdit(project)}
+                className="text-blue-500"
+              >
+                <Pencil size={16} />
+              </Button>
+            </Tooltip>
+            <Tooltip content="Delete Project">
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                onPress={() => onDelete(project)}
+                isLoading={deletingId === project._id}
+                className="text-red-500"
+              >
+                <Trash2 size={16} />
+              </Button>
+            </Tooltip>
+          </div>
+        </div>
+        
+        <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
+          {isDraggable && (
+            <div className="absolute top-2 right-2 z-10">
+              <Chip
+                variant="flat"
+                size="sm"
+                className="bg-white text-black shadow-sm"
+              >
+                Order {project.order || index + 1}
+              </Chip>
+            </div>
+          )}
           <Image
             src={project.coverImage}
             alt={project.projectName}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={false}
+            loading="lazy"
           />
         </div>
-      </div>
-      <div className="w-full sm:w-2/3 flex flex-col justify-between p-4">
-        <div className="space-y-3">
-          <h3 className="text-xl font-bold text-gray-800 truncate">
-            {project.projectName}
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            <Link
-              href={project.collectionUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-3 py-1.5 rounded-full bg-blue-100 text-blue-800 hover:bg-blue-200 transition-all duration-300 ease-in-out transform hover:scale-105 text-sm"
+
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={project.collectionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Chip
+              variant="flat"
+              color="primary"
+              size="sm"
+              startContent={<ExternalLink size={14} />}
             >
-              <ExternalLink size={14} className="mr-1.5" />
               View Collection
-            </Link>
-            <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-yellow-100 text-yellow-800 transition-all duration-300 ease-in-out hover:bg-yellow-200 hover:shadow-md text-sm">
-              <LayoutIcon size={14} className="mr-1.5" />
-              {project.fullWidth ? "Full Width" : "Standard Width"}
-            </span>
-            <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-green-100 text-green-800 transition-all duration-300 ease-in-out hover:bg-green-200 hover:shadow-md text-sm">
-              <Calendar size={14} className="mr-1.5" />
-              {new Date(project.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-        </div>
-        <div className="flex gap-2 items-end mt-2">
-          <Button
-            auto
-            light
-            color="primary"
-            startContent={<Pencil size={16} />}
-            onClick={() => onEdit(project)}
-            className="text-sm px-3 py-1.5"
+            </Chip>
+          </Link>
+          <Chip
+            variant="flat"
+            color="warning"
+            size="sm"
+            startContent={<LayoutIcon size={14} />}
           >
-            Edit
-          </Button>
-          <Button
-            auto
-            light
-            color="danger"
-            startContent={
-              deletingId === project._id ? (
-                <Spinner size="sm" />
-              ) : (
-                <Trash2 size={16} />
-              )
-            }
-            onClick={() => onDelete(project)}
-            disabled={deletingId === project._id}
-            className="text-sm px-3 py-1.5"
+            {project.fullWidth ? "Full Width" : "Standard"}
+          </Chip>
+          <Chip
+            variant="flat"
+            color="success"
+            size="sm"
+            startContent={<Calendar size={14} />}
           >
-            {deletingId === project._id ? "Deleting..." : "Delete"}
-          </Button>
+            {new Date(project.createdAt).toLocaleDateString()}
+          </Chip>
         </div>
       </div>
     </div>

@@ -1,21 +1,21 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import { handleError } from "@/lib/errorHandler";
-import Carousel from "@/models/Carousel";
+import CarouselImage from "@/models/CarouselImage";
 
 export async function PUT(request) {
   try {
     await dbConnect();
     const { images } = await request.json();
 
-    // Update each image's order in the database
-    await Promise.all(
-      images.map(async (image) => {
-        await Carousel.findByIdAndUpdate(image._id, { order: image.order });
-      })
+    // Update each image's order
+    const updatePromises = images.map((image) =>
+      CarouselImage.findByIdAndUpdate(image._id, { order: image.order })
     );
 
-    return NextResponse.json({ message: "Order updated successfully" });
+    await Promise.all(updatePromises);
+
+    return NextResponse.json({ message: "Images reordered successfully" });
   } catch (error) {
     return handleError(error);
   }

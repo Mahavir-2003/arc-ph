@@ -12,17 +12,21 @@ const CarouselCard = ({
   onDragStart,
   onDragEnd,
   onDragOver,
-  index 
+  index,
+  isDragging,
+  isDragged,
 }) => {
   return (
     <div
       draggable={isDraggable}
       onDragStart={(e) => onDragStart?.(e, index)}
-      onDragEnd={() => onDragEnd?.()}
+      onDragEnd={onDragEnd}
       onDragOver={(e) => onDragOver?.(e, index)}
       className={`bg-white rounded-xl border-2 relative ${
         isDraggable ? 'cursor-grab active:cursor-grabbing hover:border-blue-400' : ''
-      } ${isDraggable ? 'border-blue-200' : 'border-gray-200'} shadow-md p-6 transition-all duration-300 transform`}
+      } ${isDraggable ? 'border-blue-200' : 'border-gray-200'} shadow-md p-6 transition-all duration-300 transform ${
+        isDragged ? 'opacity-50 scale-105' : ''
+      }`}
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-2">

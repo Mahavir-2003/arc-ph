@@ -59,16 +59,18 @@ const Crousel = () => {
         let tl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
-            scrub: 0.5,
+            scrub: 1,
             pin: false,
+            start: "top bottom",
+            end: "bottom top",
           },
         });
         tl.from(container, {
-          yPercent: -20,
-          ease: "power1.inOut",
+          yPercent: -10,
+          ease: "none",
         }).to(container, {
-          yPercent: 20,
-          ease: "power1.inOut",
+          yPercent: 10,
+          ease: "none",
         });
       });
     }
@@ -117,12 +119,12 @@ const Crousel = () => {
                 alt={image.info}
                 layout="fill"
                 objectFit="cover"
-                className="transition-transform duration-500 group-hover:scale-110"
+                className="transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <p className="text-sm">{image.number}</p>
-                  <p className="text-lg font-semibold">{image.info}</p>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500">
+                <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="flex-1"></div>
+                  <p className="text-lg font-medium text-white bg-black/50 px-4 py-2 rounded-full">{image.info}</p>
                 </div>
               </div>
             </div>

@@ -12,11 +12,10 @@ const AddProjectCard = ({
   totalProjects = 0,
 }) => {
   const [formData, setFormData] = useState({
-    coverImage: "",
-    collectionUrl: "",
     projectName: "",
-    fullWidth: false,
-    order: totalProjects + 1,
+    collectionUrl: "",
+    coverImage: "",
+    fullWidth: false
   });
   const [isLoading, setIsLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(null);
@@ -33,11 +32,10 @@ const AddProjectCard = ({
 
   const resetForm = () => {
     setFormData({
-      coverImage: "",
-      collectionUrl: "",
       projectName: "",
-      fullWidth: false,
-      order: totalProjects + 1,
+      collectionUrl: "",
+      coverImage: "",
+      fullWidth: false
     });
   };
 

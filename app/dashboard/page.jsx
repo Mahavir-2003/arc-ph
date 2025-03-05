@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Card, Spinner, Button, Tooltip, Tabs, Tab, CardBody } from "@heroui/react";
+import { Card, CardBody, Spinner, Button, Tooltip, Tabs, Tab } from "@heroui/react";
 import AddProjectCard from "../components/AddProjectCard";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { useToast } from "../hooks/useToast";
 import dynamic from 'next/dynamic';
 import ProjectList from "../components/ProjectList";
 import CarouselManager from "../components/CarouselManager";
+import CarouselForm from "../components/CarouselForm";
 
 const SeeDocs = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
@@ -143,9 +144,11 @@ const DocsLinks = () => {
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
+  const [images, setImages] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
+  const [isImagesLoading, setIsImagesLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const showToast = useToast();
@@ -169,12 +172,35 @@ const Dashboard = () => {
     }
   }, [showToast]);
 
+  const fetchImages = useCallback(async () => {
+    setIsImagesLoading(true);
+    try {
+      const response = await fetch("/api/carousel");
+      if (response.ok) {
+        const data = await response.json();
+        const sortedData = (Array.isArray(data) ? data : []).sort(
+          (a, b) => a.order - b.order
+        );
+        setImages(sortedData);
+      } else {
+        console.error("Failed to fetch images");
+        showToast("Failed to fetch images", "error");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      showToast("Error fetching images", "error");
+    } finally {
+      setIsImagesLoading(false);
+    }
+  }, [showToast]);
+
   useEffect(() => {
     const checkAuth = async () => {
       const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
       if (storedIsLoggedIn === "true") {
         setIsAuthenticated(true);
         fetchProjects();
+        fetchImages();
       } else {
         try {
           const response = await fetch("/api/check-auth");
@@ -182,6 +208,7 @@ const Dashboard = () => {
             setIsAuthenticated(true);
             localStorage.setItem("isLoggedIn", "true");
             fetchProjects();
+            fetchImages();
           } else {
             setIsAuthenticated(false);
           }
@@ -194,7 +221,7 @@ const Dashboard = () => {
     };
 
     checkAuth();
-  }, [fetchProjects, showToast]);
+  }, [fetchProjects, fetchImages, showToast]);
 
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
@@ -330,7 +357,33 @@ const Dashboard = () => {
             </div>
           </Tab>
           <Tab key="carousel" title="Carousel">
-            <CarouselManager.Manager />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+              <Card className="p-4 sm:p-6 h-full flex flex-col">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
+                  Add New Image
+                </h2>
+                <div className="flex-grow overflow-auto">
+                  <CarouselForm onImageAdded={fetchImages} />
+                </div>
+              </Card>
+              <Card className="p-4 sm:p-6 h-full flex flex-col">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
+                  Current Images
+                </h2>
+                {isImagesLoading ? (
+                  <div className="flex justify-center items-center h-32 sm:h-40">
+                    <Spinner size="lg" />
+                  </div>
+                ) : (
+                  <div className="flex-grow overflow-auto">
+                    <CarouselManager
+                      images={images}
+                      onImagesUpdated={fetchImages}
+                    />
+                  </div>
+                )}
+              </Card>
+            </div>
           </Tab>
         </Tabs>
       </div>

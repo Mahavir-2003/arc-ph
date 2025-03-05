@@ -12,7 +12,6 @@ import {
 } from "@heroui/react";
 import { Search, GripVertical } from "lucide-react";
 import { useToast } from "../hooks/useToast";
-import ProjectCard from "./ProjectCard";
 import DraggableProjectList from "./DraggableProjectList";
 
 const ProjectList = ({ projects, onProjectUpdated, setEditingProject }) => {

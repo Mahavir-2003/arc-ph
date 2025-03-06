@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
-import { handleError } from "@/lib/errorHandler";
+import { handleApiError } from "@/lib/errorHandler";
 import CarouselImage from "@/models/CarouselImage";
 
 export async function PUT(request) {
@@ -17,6 +17,6 @@ export async function PUT(request) {
 
     return NextResponse.json({ message: "Images reordered successfully" });
   } catch (error) {
-    return handleError(error);
+    return handleApiError(error);
   }
 } 

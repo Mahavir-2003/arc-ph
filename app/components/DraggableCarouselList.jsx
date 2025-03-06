@@ -1,54 +1,40 @@
 import { useState, useRef, useCallback } from "react";
 import CarouselCard from "./CarouselCard";
-import debounce from "lodash/debounce";
 
 const DraggableCarouselList = ({
   images,
   onReorder,
   onDelete,
   onEdit,
-  deletingId,
-  isEditMode,
+  deletingId
 }) => {
+  const [localImages, setLocalImages] = useState(images);
   const [draggedIndex, setDraggedIndex] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const reorderTimeoutRef = useRef(null);
-  const dragStateRef = useRef({
-    draggedIndex: null,
-    currentIndex: null,
-  });
+  const dragNodeRef = useRef(null);
 
-  const debouncedReorder = useCallback(
-    debounce((items) => {
-      onReorder(items);
-    }, 1000),
-    [onReorder]
-  );
-
-  const handleDragStart = (e, index) => {
-    if (!isEditMode) return;
-    setIsDragging(true);
+  const handleDragStart = useCallback((e, index) => {
+    dragNodeRef.current = e.target;
     setDraggedIndex(index);
-    dragStateRef.current.draggedIndex = index;
     e.dataTransfer.effectAllowed = "move";
-    e.target.classList.add("opacity-50");
-  };
+  }, []);
 
-  const handleDragEnd = (e) => {
-    e?.target?.classList?.remove("opacity-50");
-    setIsDragging(false);
+  const handleDragEnd = useCallback(async () => {
     setDraggedIndex(null);
-    dragStateRef.current.draggedIndex = null;
-    dragStateRef.current.currentIndex = null;
-  };
+    
+    try {
+      await onReorder(localImages);
+    } catch (error) {
+      console.error('Error updating order:', error);
+      setLocalImages(images);
+    }
+  }, [localImages, onReorder, images]);
 
-  const handleDragOver = (e, index) => {
+  const handleDragOver = useCallback((e, index) => {
     e.preventDefault();
-    if (!isEditMode || !isDragging || dragStateRef.current.draggedIndex === index) return;
+    if (draggedIndex === null || draggedIndex === index) return;
 
-    dragStateRef.current.currentIndex = index;
-    const items = Array.from(images);
-    const [draggedItem] = items.splice(dragStateRef.current.draggedIndex, 1);
+    const items = Array.from(localImages);
+    const [draggedItem] = items.splice(draggedIndex, 1);
     items.splice(index, 0, draggedItem);
 
     const updatedItems = items.map((item, idx) => ({
@@ -56,53 +42,24 @@ const DraggableCarouselList = ({
       order: idx + 1,
     }));
 
-    if (reorderTimeoutRef.current) {
-      clearTimeout(reorderTimeoutRef.current);
-    }
-
-    reorderTimeoutRef.current = setTimeout(() => {
-      debouncedReorder(updatedItems);
-    }, 500);
-
+    setLocalImages(updatedItems);
     setDraggedIndex(index);
-    dragStateRef.current.draggedIndex = index;
-  };
-
-  const CarouselList = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-      {images.map((image, index) => (
-        <CarouselCard
-          key={image._id}
-          image={image}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          deletingId={deletingId}
-          index={index}
-        />
-      ))}
-    </div>
-  );
-
-  if (!isEditMode) {
-    return <CarouselList />;
-  }
+  }, [draggedIndex, localImages]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-      {images.map((image, index) => (
+      {localImages.map((image, index) => (
         <CarouselCard
           key={image._id}
           image={image}
           onEdit={onEdit}
           onDelete={onDelete}
           deletingId={deletingId}
-          isDraggable={isEditMode}
+          isDragged={index === draggedIndex}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           onDragOver={handleDragOver}
           index={index}
-          isDragging={isDragging}
-          isDragged={index === draggedIndex}
         />
       ))}
     </div>

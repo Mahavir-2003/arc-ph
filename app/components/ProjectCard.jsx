@@ -1,32 +1,59 @@
+import { memo } from "react";
 import { Button, Tooltip, Chip } from "@heroui/react";
-import { Pencil, Trash2, GripVertical, ExternalLink, LayoutIcon, Calendar } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  GripVertical,
+  ExternalLink,
+  LayoutIcon,
+  Calendar,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProjectCard = ({ 
-  project, 
-  onEdit, 
-  onDelete, 
-  deletingId, 
-  isDraggable,
+const ProjectCard = ({
+  project,
+  onEdit,
+  onDelete,
+  deletingId,
+  isDragged,
   onDragStart,
   onDragEnd,
   onDragOver,
-  index 
+  index,
+  draggable = false,
 }) => {
   return (
     <div
-      draggable={isDraggable}
+      draggable={draggable}
       onDragStart={(e) => onDragStart?.(e, index)}
-      onDragEnd={() => onDragEnd?.()}
+      onDragEnd={onDragEnd}
       onDragOver={(e) => onDragOver?.(e, index)}
-      className={`bg-white rounded-xl border-2 relative ${
-        isDraggable ? 'cursor-grab active:cursor-grabbing hover:border-blue-400' : ''
-      } ${isDraggable ? 'border-blue-200' : 'border-gray-200'} shadow-md p-6 transition-all duration-300 transform`}
+      className={`
+        bg-white rounded-xl border-2 relative 
+        cursor-grab active:cursor-grabbing
+        hover:border-blue-400 hover:shadow-lg
+        border-gray-200 shadow-md p-6 
+        transition-all duration-300 transform
+        ${
+          isDragged ? "opacity-50 scale-105 border-blue-500 z-50 shadow-xl" : ""
+        }
+      `}
     >
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold truncate flex-grow">{project.projectName}</h3>
+          <div className="flex items-center gap-2 flex-grow group">
+            <GripVertical
+              size={16}
+              className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200"
+            />
+            {/* trim the name if longer than cetain length */}
+            <h3 className="text-lg font-semibold truncate">
+              {project.projectName.length > 20
+                ? project.projectName.slice(0, 20) + "..."
+                : project.projectName}
+            </h3>
+          </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             <Tooltip content="Edit Project">
               <Button
@@ -34,7 +61,7 @@ const ProjectCard = ({
                 size="sm"
                 variant="light"
                 onPress={() => onEdit(project)}
-                className="text-blue-500"
+                className="text-blue-500 hover:bg-blue-50"
               >
                 <Pencil size={16} />
               </Button>
@@ -46,57 +73,68 @@ const ProjectCard = ({
                 variant="light"
                 onPress={() => onDelete(project)}
                 isLoading={deletingId === project._id}
-                className="text-red-500"
+                className="text-red-500 hover:bg-red-50"
               >
                 <Trash2 size={16} />
               </Button>
             </Tooltip>
           </div>
         </div>
-        
-        <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 bg-gray-50">
-          {isDraggable && (
-            <div className="absolute top-2 right-2 z-10">
-              <Chip
-                variant="flat"
-                size="sm"
-                className="bg-white text-black shadow-sm"
-              >
-                Order {project.order || index + 1}
-              </Chip>
+
+        <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 bg-gray-50 group">
+          <div className="absolute top-2 right-2 z-10">
+            <Chip
+              variant="flat"
+              size="sm"
+              className="bg-white text-black shadow-sm"
+            >
+              Order {project.order || index + 1}
+            </Chip>
+          </div>
+          {project.coverImage ? (
+            <>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200" />
+              <Image
+                src={project.coverImage}
+                alt={project.projectName || "Project Image"}
+                fill
+                className="object-cover transition-transform duration-200 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={false}
+                loading="lazy"
+              />
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-100">
+              <span className="text-gray-400">No image available</span>
             </div>
           )}
-          <Image
-            src={project.coverImage}
-            alt={project.projectName}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={false}
-            loading="lazy"
-          />
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Link
-            href={project.collectionUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Chip
-              variant="flat"
-              color="primary"
-              size="sm"
-              startContent={<ExternalLink size={14} />}
+          {project.collectionUrl && (
+            <Link
+              href={project.collectionUrl}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              View Collection
-            </Chip>
-          </Link>
+              <Chip
+                variant="flat"
+                color="primary"
+                size="sm"
+                startContent={<ExternalLink size={14} />}
+                className="hover:bg-blue-100 transition-colors duration-200"
+              >
+                View Collection
+              </Chip>
+            </Link>
+          )}
           <Chip
             variant="flat"
             color="warning"
             size="sm"
             startContent={<LayoutIcon size={14} />}
+            className="hover:bg-orange-100 transition-colors duration-200"
           >
             {project.fullWidth ? "Full Width" : "Standard"}
           </Chip>
@@ -105,6 +143,7 @@ const ProjectCard = ({
             color="success"
             size="sm"
             startContent={<Calendar size={14} />}
+            className="hover:bg-green-100 transition-colors duration-200"
           >
             {new Date(project.createdAt).toLocaleDateString()}
           </Chip>
@@ -114,4 +153,4 @@ const ProjectCard = ({
   );
 };
 
-export default ProjectCard;
+export default memo(ProjectCard);

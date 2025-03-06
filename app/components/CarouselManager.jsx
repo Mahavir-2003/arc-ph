@@ -8,7 +8,6 @@ import {
   useDisclosure,
   Input,
   Button,
-  Switch,
 } from "@heroui/react";
 import { Search, GripVertical } from "lucide-react";
 import { useToast } from "../hooks/useToast";
@@ -106,22 +105,7 @@ const CarouselManager = ({ images, onImagesUpdated }) => {
               variant="bordered"
             />
           </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <Switch
-              size="sm"
-              isSelected={isEditMode}
-              onValueChange={setIsEditMode}
-              aria-label="Toggle drag mode"
-              startContent={
-                <GripVertical
-                  size={14}
-                  className={isEditMode ? "text-white" : "text-gray-400"}
-                />
-              }
-            >
-              Drag
-            </Switch>
-          </div>
+          
         </div>
       </div>
       <div className="flex-grow overflow-auto">

@@ -95,7 +95,7 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || `Failed to ${editingImage ? 'update' : 'add'} image`);
+        throw new Error(error.error || `Failed to ${editingImage ? 'update' : 'add'} image`);
       }
 
       showToast(`Image ${editingImage ? 'updated' : 'added'} successfully`, "success");

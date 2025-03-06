@@ -5,7 +5,7 @@ import { Card, CardBody, Spinner, Button, Tooltip, Tabs, Tab } from "@heroui/rea
 import AddProjectCard from "../components/AddProjectCard";
 import LoginForm from "../components/LoginForm";
 import Link from "next/link";
-import { HelpCircle, ExternalLink, LogOut } from "lucide-react";
+import { HelpCircle, ExternalLink, LogOut, Plus, Info, RefreshCw } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 import dynamic from 'next/dynamic';
 import ProjectList from "../components/ProjectList";
@@ -151,6 +151,7 @@ const Dashboard = () => {
   const [isImagesLoading, setIsImagesLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [editingImage, setEditingImage] = useState(null);
+  const [isFixingNumbers, setIsFixingNumbers] = useState(false);
 
   const showToast = useToast();
 
@@ -328,6 +329,33 @@ const Dashboard = () => {
     }
   };
 
+  const handleFixNumbers = async () => {
+    if (process.env.NODE_ENV !== 'development') {
+      showToast('This feature is only available in development', 'error');
+      return;
+    }
+
+    setIsFixingNumbers(true);
+    try {
+      const response = await fetch('/api/carousel/fix-numbers', {
+        method: 'POST'
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fix numbers');
+      }
+
+      const data = await response.json();
+      showToast(`Fixed ${data.images.length} image numbers`, 'success');
+      fetchImages(); // Refresh the images list
+    } catch (error) {
+      console.error('Error fixing numbers:', error);
+      showToast('Failed to fix image numbers', 'error');
+    } finally {
+      setIsFixingNumbers(false);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -366,6 +394,17 @@ const Dashboard = () => {
             >
               Logout
             </Button>
+            {process.env.NODE_ENV === 'development' && (
+              <Button
+                color="warning"
+                variant="flat"
+                onPress={handleFixNumbers}
+                isLoading={isFixingNumbers}
+                startContent={<RefreshCw size={20} />}
+              >
+                Fix Carousel Numbers
+              </Button>
+            )}
           </div>
         </div>
         <Tabs aria-label="Options">

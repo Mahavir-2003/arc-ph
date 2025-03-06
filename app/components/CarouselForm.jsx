@@ -6,8 +6,8 @@ import { useToast } from "../hooks/useToast";
 const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditingImage }) => {
   const [formData, setFormData] = useState({
     url: "",
-    title: "",
     info: "",
+    number: "",
     order: 1
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +23,24 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
       const maxOrder = images.length > 0 
         ? Math.max(...images.map(img => img.order || 0))
         : 0;
+      const nextOrder = maxOrder + 1;
+      const paddedNumber = String(nextOrder).padStart(3, '0');
       setFormData(prev => ({
         ...prev,
-        order: maxOrder + 1
+        order: nextOrder,
+        number: paddedNumber
       }));
     }
   }, [editingImage, images]);
+
+  // Update number when order changes
+  useEffect(() => {
+    const paddedNumber = String(formData.order).padStart(3, '0');
+    setFormData(prev => ({
+      ...prev,
+      number: paddedNumber
+    }));
+  }, [formData.order]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -81,7 +93,8 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
       // Then add/update the current image
       const submitData = {
         ...formData,
-        order: newOrder
+        order: newOrder,
+        number: String(newOrder).padStart(3, '0')
       };
 
       const url = editingImage ? `/api/carousel/${editingImage._id}` : "/api/carousel";
@@ -99,7 +112,7 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
       }
 
       showToast(`Image ${editingImage ? 'updated' : 'added'} successfully`, "success");
-      setFormData({ url: "", title: "", info: "", order: 1 });
+      setFormData({ url: "", info: "", number: "", order: 1 });
       setEditingImage(null);
       onImageAdded();
     } catch (error) {
@@ -174,26 +187,6 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
           variant="bordered"
         />
         <Input
-          label="Title"
-          placeholder="Enter title"
-          value={formData.title}
-          onChange={(e) =>
-            setFormData({ ...formData, title: e.target.value })
-          }
-          required
-          variant="bordered"
-        />
-        <Input
-          label="Info"
-          placeholder="Enter info"
-          value={formData.info}
-          onChange={(e) =>
-            setFormData({ ...formData, info: e.target.value })
-          }
-          required
-          variant="bordered"
-        />
-        <Input
           type="number"
           label="Display Order"
           placeholder="Enter display order"
@@ -209,6 +202,23 @@ const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditi
           required
           variant="bordered"
           helperText={`Enter a number between 1 and ${images.length + 1}`}
+        />
+        <Input
+          label="Number"
+          value={formData.number}
+          disabled
+          variant="bordered"
+          helperText="Auto-generated based on order (3 leading zeros)"
+        />
+        <Input
+          label="Info"
+          placeholder="Enter info text"
+          value={formData.info}
+          onChange={(e) =>
+            setFormData({ ...formData, info: e.target.value })
+          }
+          required
+          variant="bordered"
         />
       </div>
 

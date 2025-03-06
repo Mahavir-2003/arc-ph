@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 const Crousel = () => {
   const [images, setImages] = useState([]);
@@ -34,45 +33,12 @@ const Crousel = () => {
     if (!loading && images.length > 0) {
       const tl = gsap.timeline({});
 
-      tl.set(".main-text", { opacity: 0, y: -100 })
-        .set(".image-grid", { opacity: 0, y: 100 })
-        .set(".proj-images", { scale: 1.1, delay: 0.5 })
-        .to(".main-text", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" })
-        .to(
-          ".image-grid",
-          { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" },
-          "-=0.5"
-        )
-        .to(".proj-images", { scale: 1, duration: 1, ease: "bounce.in" });
+      tl.set(".image-grid", { opacity: 0 })
+        .to(".image-grid", { opacity: 1, duration: 0.8, ease: "power2.out" });
 
       return () => {
         tl.kill();
       };
-    }
-  }, [loading, images]);
-
-  useEffect(() => {
-    if (!loading && images.length > 0) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.utils.toArray(".image-container").forEach(function (container) {
-        let tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: container,
-            scrub: 1,
-            pin: false,
-            start: "top bottom",
-            end: "bottom top",
-          },
-        });
-        tl.from(container, {
-          yPercent: -10,
-          ease: "none",
-        }).to(container, {
-          yPercent: 10,
-          ease: "none",
-        });
-      });
     }
   }, [loading, images]);
 
@@ -105,7 +71,7 @@ const Crousel = () => {
       {images.map((image) => (
         <div
           key={image._id}
-          className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group image-container"
+          className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
         >
           <Link
             href={image.url}
@@ -122,8 +88,11 @@ const Crousel = () => {
                 className="transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <p className="text-xl font-medium text-white bg-black/50 px-6 py-3 rounded-full">Click to view full size</p>
+                </div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="flex-1"></div>
+                  <p className="text-lg font-medium text-white bg-black/50 px-4 py-2 rounded-full">{image.number}</p>
                   <p className="text-lg font-medium text-white bg-black/50 px-4 py-2 rounded-full">{image.info}</p>
                 </div>
               </div>

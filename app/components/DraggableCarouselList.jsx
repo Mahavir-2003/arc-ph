@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import CarouselCard from "./CarouselCard";
+import { Pagination } from "@heroui/react";
 
 const DraggableCarouselList = ({
   images,
@@ -11,6 +12,8 @@ const DraggableCarouselList = ({
   const [localImages, setLocalImages] = useState(images);
   const [draggedIndex, setDraggedIndex] = useState(null);
   const dragNodeRef = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const handleDragStart = useCallback((e, index) => {
     dragNodeRef.current = e.target;
@@ -46,22 +49,42 @@ const DraggableCarouselList = ({
     setDraggedIndex(index);
   }, [draggedIndex, localImages]);
 
+  // Calculate pagination
+  const totalPages = Math.ceil(localImages.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentImages = localImages.slice(startIndex, endIndex);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-      {localImages.map((image, index) => (
-        <CarouselCard
-          key={image._id}
-          image={image}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          deletingId={deletingId}
-          isDragged={index === draggedIndex}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-          onDragOver={handleDragOver}
-          index={index}
-        />
-      ))}
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+        {currentImages.map((image, index) => (
+          <CarouselCard
+            key={image._id}
+            image={image}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            deletingId={deletingId}
+            isDragged={index === draggedIndex}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+            index={startIndex + index}
+            draggable={true}
+          />
+        ))}
+      </div>
+      {totalPages > 1 && (
+        <div className="flex justify-center py-4">
+          <Pagination
+            total={totalPages}
+            page={currentPage}
+            onChange={setCurrentPage}
+            showControls
+            variant="light"
+          />
+        </div>
+      )}
     </div>
   );
 };

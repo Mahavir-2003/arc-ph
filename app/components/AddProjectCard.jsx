@@ -9,13 +9,14 @@ const AddProjectCard = ({
   onProjectSubmit,
   editingProject,
   setEditingProject,
-  totalProjects = 0,
+  projects = [],
 }) => {
   const [formData, setFormData] = useState({
     projectName: "",
     collectionUrl: "",
     coverImage: "",
-    fullWidth: false
+    fullWidth: false,
+    order: 1
   });
   const [isLoading, setIsLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(null);
@@ -26,18 +27,16 @@ const AddProjectCard = ({
     if (editingProject) {
       setFormData(editingProject);
     } else {
-      resetForm();
+      // Find the highest order number
+      const maxOrder = projects.length > 0 
+        ? Math.max(...projects.map(proj => proj.order || 0))
+        : 0;
+      setFormData(prev => ({
+        ...prev,
+        order: maxOrder + 1
+      }));
     }
-  }, [editingProject, totalProjects]);
-
-  const resetForm = () => {
-    setFormData({
-      projectName: "",
-      collectionUrl: "",
-      coverImage: "",
-      fullWidth: false
-    });
-  };
+  }, [editingProject, projects]);
 
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -77,7 +76,6 @@ const AddProjectCard = ({
     setButtonLoading("submit");
     try {
       await onProjectSubmit(formData);
-      resetForm();
       setEditingProject(null);
     } catch (error) {
       console.error("Error:", error);
@@ -150,7 +148,6 @@ const AddProjectCard = ({
         <ProjectFormInputs 
           formData={formData} 
           handleChange={handleChange}
-          totalProjects={totalProjects}
         />
         <ProjectFormButtons
           isLoading={isLoading}

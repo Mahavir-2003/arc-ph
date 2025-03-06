@@ -1,6 +1,6 @@
 import FormField from "./FormField";
 
-const ProjectFormInputs = ({ formData, onChange, totalProjects = 0 }) => {
+const ProjectFormInputs = ({ formData, onChange }) => {
   return (
     <div className="space-y-4">
       <FormField
@@ -23,6 +23,20 @@ const ProjectFormInputs = ({ formData, onChange, totalProjects = 0 }) => {
         value={formData.coverImage}
         onChange={(e) => onChange("coverImage", e.target.value)}
         required
+      />
+      <FormField
+        label="Display Order"
+        type="number"
+        min={1}
+        value={formData.order}
+        onChange={(e) => {
+          const value = parseInt(e.target.value);
+          if (value >= 1) {
+            onChange("order", value);
+          }
+        }}
+        required
+        helperText="Enter the display order number"
       />
       <div className="flex items-center gap-2">
         <input

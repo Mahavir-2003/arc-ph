@@ -9,17 +9,16 @@ import {
   Input,
   Button,
 } from "@heroui/react";
-import { Search, GripVertical } from "lucide-react";
+import { Search } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 import DraggableCarouselList from "./DraggableCarouselList";
 
-const CarouselManager = ({ images, onImagesUpdated }) => {
+const CarouselManager = ({ images, onImagesUpdated, onEdit }) => {
   const [deletingId, setDeletingId] = useState(null);
   const [imageToDelete, setImageToDelete] = useState(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredImages, setFilteredImages] = useState(images);
-  const [isEditMode, setIsEditMode] = useState(false);
 
   const showToast = useToast();
 
@@ -92,8 +91,8 @@ const CarouselManager = ({ images, onImagesUpdated }) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="sticky top-0 bg-white z-10 pb-4">
+    <div className="flex flex-col h-full space-y-6">
+      <div className="sticky top-0 bg-white z-10">
         <div className="flex items-center gap-4">
           <div className="flex-1">
             <Input
@@ -105,18 +104,19 @@ const CarouselManager = ({ images, onImagesUpdated }) => {
               variant="bordered"
             />
           </div>
-          
         </div>
       </div>
+
       <div className="flex-grow overflow-auto">
         <DraggableCarouselList
           images={currentFilteredImages}
           onReorder={handleReorder}
           onDelete={handleDeleteClick}
+          onEdit={onEdit}
           deletingId={deletingId}
-          isEditMode={isEditMode}
         />
       </div>
+
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="inter">
         <ModalContent>
           {(onClose) => (

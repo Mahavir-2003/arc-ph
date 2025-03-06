@@ -150,6 +150,7 @@ const Dashboard = () => {
   const [isProjectsLoading, setIsProjectsLoading] = useState(false);
   const [isImagesLoading, setIsImagesLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [editingImage, setEditingImage] = useState(null);
 
   const showToast = useToast();
 
@@ -237,6 +238,52 @@ const Dashboard = () => {
   const handleProjectSubmit = async (projectData) => {
     setIsProjectsLoading(true);
     try {
+      const newOrder = parseInt(projectData.order);
+      const oldOrder = editingProject?.order;
+      
+      // Get all projects excluding the current one being edited
+      const otherProjects = projects.filter(proj => proj._id !== editingProject?._id);
+      
+      // Reorder other projects based on the new order
+      const reorderedProjects = otherProjects.map(proj => {
+        if (editingProject) {
+          // When editing
+          if (newOrder > oldOrder) {
+            // Moving down: decrease order of projects between old and new position
+            if (proj.order > oldOrder && proj.order <= newOrder) {
+              return { ...proj, order: proj.order - 1 };
+            }
+          } else if (newOrder < oldOrder) {
+            // Moving up: increase order of projects between new and old position
+            if (proj.order >= newOrder && proj.order < oldOrder) {
+              return { ...proj, order: proj.order + 1 };
+            }
+          }
+        } else {
+          // When adding new: increase order of all projects at or after the insertion point
+          if (proj.order >= newOrder) {
+            return { ...proj, order: proj.order + 1 };
+          }
+        }
+        return proj;
+      });
+
+      // First update other projects if needed
+      if (reorderedProjects.some(proj => proj.order !== projects.find(p => p._id === proj._id)?.order)) {
+        const reorderResponse = await fetch("/api/projects/reorder", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ projects: reorderedProjects }),
+        });
+
+        if (!reorderResponse.ok) {
+          throw new Error("Failed to reorder projects");
+        }
+      }
+
+      // Then add/update the current project
       const url = editingProject
         ? `/api/projects/${editingProject._id}`
         : "/api/projects";
@@ -333,6 +380,7 @@ const Dashboard = () => {
                     onProjectSubmit={handleProjectSubmit}
                     editingProject={editingProject}
                     setEditingProject={setEditingProject}
+                    projects={projects}
                   />
                 </div>
               </Card>
@@ -360,10 +408,15 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               <Card className="p-4 sm:p-6 h-full flex flex-col">
                 <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">
-                  Add New Image
+                  {editingImage ? "Edit Image" : "Add New Image"}
                 </h2>
                 <div className="flex-grow overflow-auto">
-                  <CarouselForm onImageAdded={fetchImages} />
+                  <CarouselForm 
+                    onImageAdded={fetchImages} 
+                    images={images}
+                    editingImage={editingImage}
+                    setEditingImage={setEditingImage}
+                  />
                 </div>
               </Card>
               <Card className="p-4 sm:p-6 h-full flex flex-col">
@@ -379,6 +432,7 @@ const Dashboard = () => {
                     <CarouselManager
                       images={images}
                       onImagesUpdated={fetchImages}
+                      onEdit={setEditingImage}
                     />
                   </div>
                 )}

@@ -1,50 +1,117 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, Button, Image, Tooltip } from "@heroui/react";
 import { Plus, Info } from "lucide-react";
 import { useToast } from "../hooks/useToast";
 
-const CarouselForm = ({ onImageAdded, images }) => {
+const CarouselForm = ({ onImageAdded, images = [], editingImage = null, setEditingImage }) => {
   const [formData, setFormData] = useState({
     url: "",
     title: "",
     info: "",
+    order: 1
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const showToast = useToast();
+
+  // Set initial form data when editing or calculate next order
+  useEffect(() => {
+    if (editingImage) {
+      setFormData(editingImage);
+    } else {
+      // Find the highest order number
+      const maxOrder = images.length > 0 
+        ? Math.max(...images.map(img => img.order || 0))
+        : 0;
+      setFormData(prev => ({
+        ...prev,
+        order: maxOrder + 1
+      }));
+    }
+  }, [editingImage, images]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Calculate the next order number
-      const maxOrder = images?.length ? Math.max(...images.map(img => img.number || 0)) : 0;
+      const newOrder = parseInt(formData.order);
+      const oldOrder = editingImage?.order;
+      
+      // Get all images excluding the current one being edited
+      const otherImages = images.filter(img => img._id !== editingImage?._id);
+      
+      // Reorder other images based on the new order
+      const reorderedImages = otherImages.map(img => {
+        if (editingImage) {
+          // When editing
+          if (newOrder > oldOrder) {
+            // Moving down: decrease order of images between old and new position
+            if (img.order > oldOrder && img.order <= newOrder) {
+              return { ...img, order: img.order - 1 };
+            }
+          } else if (newOrder < oldOrder) {
+            // Moving up: increase order of images between new and old position
+            if (img.order >= newOrder && img.order < oldOrder) {
+              return { ...img, order: img.order + 1 };
+            }
+          }
+        } else {
+          // When adding new: increase order of all images at or after the insertion point
+          if (img.order >= newOrder) {
+            return { ...img, order: img.order + 1 };
+          }
+        }
+        return img;
+      });
+
+      // First update other images if needed
+      if (reorderedImages.some(img => img.order !== images.find(i => i._id === img._id)?.order)) {
+        const reorderResponse = await fetch("/api/carousel/reorder", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ images: reorderedImages }),
+        });
+
+        if (!reorderResponse.ok) {
+          throw new Error("Failed to reorder images");
+        }
+      }
+
+      // Then add/update the current image
       const submitData = {
         ...formData,
-        number: maxOrder + 1
+        order: newOrder
       };
 
-      const response = await fetch("/api/carousel", {
-        method: "POST",
+      const url = editingImage ? `/api/carousel/${editingImage._id}` : "/api/carousel";
+      const method = editingImage ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Failed to add image");
+        throw new Error(error.message || `Failed to ${editingImage ? 'update' : 'add'} image`);
       }
 
-      showToast("Image added successfully", "success");
-      setFormData({ url: "", title: "", info: "" });
+      showToast(`Image ${editingImage ? 'updated' : 'added'} successfully`, "success");
+      setFormData({ url: "", title: "", info: "", order: 1 });
+      setEditingImage(null);
       onImageAdded();
     } catch (error) {
-      console.error("Error adding image:", error);
-      showToast(error.message || "Failed to add image", "error");
+      console.error("Error with image:", error);
+      showToast(error.message || `Failed to ${editingImage ? 'update' : 'add'} image`, "error");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingImage(null);
   };
 
   const tooltipContent = (
@@ -126,17 +193,46 @@ const CarouselForm = ({ onImageAdded, images }) => {
           required
           variant="bordered"
         />
+        <Input
+          type="number"
+          label="Display Order"
+          placeholder="Enter display order"
+          value={formData.order}
+          min={1}
+          max={images.length + 1}
+          onChange={(e) => {
+            const value = parseInt(e.target.value);
+            if (value >= 1 && value <= images.length + 1) {
+              setFormData({ ...formData, order: value });
+            }
+          }}
+          required
+          variant="bordered"
+          helperText={`Enter a number between 1 and ${images.length + 1}`}
+        />
       </div>
 
-      <Button
-        color="primary"
-        type="submit"
-        isLoading={isLoading}
-        className="w-full"
-        startContent={<Plus size={20} />}
-      >
-        Add Image
-      </Button>
+      <div className="flex gap-4">
+        <Button
+          color="primary"
+          type="submit"
+          isLoading={isLoading}
+          className="flex-1"
+          startContent={!editingImage && <Plus size={20} />}
+        >
+          {editingImage ? 'Update Image' : 'Add Image'}
+        </Button>
+        {editingImage && (
+          <Button
+            color="default"
+            variant="light"
+            onPress={handleCancelEdit}
+            className="flex-1"
+          >
+            Cancel
+          </Button>
+        )}
+      </div>
     </form>
   );
 };

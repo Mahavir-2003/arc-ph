@@ -15,22 +15,25 @@ export async function POST(request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Accept": "application/json"
       },
       body: JSON.stringify(formData),
     });
 
-    if (response.ok) {
-      return NextResponse.json({ message: "Form submitted successfully" });
-    } else {
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Form submission error:", errorData);
       return NextResponse.json(
-        { error: "Error submitting form" },
-        { status: 500 }
+        { error: errorData.message || "Error submitting form" },
+        { status: response.status }
       );
     }
+
+    return NextResponse.json({ message: "Form submitted successfully" });
   } catch (error) {
     console.error("Error submitting form:", error);
     return NextResponse.json(
-      { error: "Error submitting form" },
+      { error: "Error submitting form. Please try again later." },
       { status: 500 }
     );
   }

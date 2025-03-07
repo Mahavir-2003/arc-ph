@@ -7,9 +7,20 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Lenis from "lenis";
 import Navbar from "../components/Navbar-port";
 import Footer from "../components/Footer";
+import dynamic from 'next/dynamic';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { Spinner } from "@heroui/react";
+
+const Crousel = dynamic(() => import('../components/Crousel'), {
+  loading: () => <LoadingSpinner />,
+  ssr: false
+});
 
 const Portfolio = () => {
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const [showMoreText, setShowMoreText] = useState(false);
 
   useEffect(() => {
     fetchProjects();
@@ -33,8 +44,18 @@ const Portfolio = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (imagesLoaded === projects.length && projects.length > 0) {
+      setShowMoreText(true);
+      // Trigger the info animation after images are loaded
+      const tl = gsap.timeline({});
+      tl.to(".info", { y: 0, opacity: 1, duration: 1.2, ease: "circ.out" });
+    }
+  }, [imagesLoaded, projects.length]);
+
   const fetchProjects = async () => {
     try {
+      setLoading(true);
       const response = await fetch("/api/projects");
       if (response.ok) {
         const data = await response.json();
@@ -44,6 +65,8 @@ const Portfolio = () => {
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,6 +128,10 @@ const Portfolio = () => {
     });
   }, []);
 
+  const handleImageLoad = () => {
+    setImagesLoaded(prev => prev + 1);
+  };
+
   return (
     <>
       <main className="inter bg-[#efebe0] min-h-screen">
@@ -114,44 +141,56 @@ const Portfolio = () => {
             Portfolio - Projects
           </h1>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
-          {projects.map((project) => (
-            <div
-              key={project._id}
-              className={`relative overflow-hidden group ${
-                project.fullWidth
-                  ? "md:col-span-2 h-[48vh] md:h-[64vh]"
-                  : "h-[30vh] md:h-[40vh]"
-              }`}
-            >
-              <Link
-                href={project.collectionUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View in full screen"
+        {loading ? (
+          <div className="min-h-[50vh] flex items-center justify-center">
+            <Spinner size="lg" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
+            {projects.map((project, index) => (
+              <div
+                key={project._id}
+                className={`relative overflow-hidden group ${
+                  project.fullWidth || (index === projects.length - 1 && projects.length % 2 !== 0)
+                    ? "md:col-span-2 h-[48vh] md:h-[64vh]"
+                    : "h-[30vh] md:h-[50vh]"
+                }`}
               >
-                <Image
-                  className="object-cover group-hover:scale-105 transition-all duration-500 ease-in-out proj-images"
-                  src={project.coverImage}
-                  alt={project.projectName}
-                  layout="fill"
-                  style={{ objectFit: 'cover' }}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-xl lg:text-2xl">
-                    Visit collection
-                  </p>
-                </div>
-              </Link>
-              <div className="absolute -bottom-10 right-5 text-2xl lg:text-3xl text-white font-light group-hover:bottom-5 transition-all ease-in-out duration-300">
-                {project.projectName}
+                <Link
+                  href={project.collectionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View in full screen"
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      src={project.coverImage}
+                      alt={project.projectName}
+                      layout="fill"
+                      style={{ objectFit: 'cover' }}
+                      onLoadingComplete={handleImageLoad}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500">
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <p className="text-xl font-medium text-white bg-black/50 px-6 py-3 rounded-full">Click to view collection</p>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 p-6 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <p className="text-lg font-medium text-white bg-black/50 px-4 py-2 rounded-full">{project.order || "New"}</p>
+                        <p className="text-lg font-medium text-white bg-black/50 px-4 py-2 rounded-full">{project.projectName}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className="text-black text-xl font-medium p-5 right-0 text-right info">
-          More works coming soon ...
-        </div>
+            ))}
+          </div>
+        )}
+        {showMoreText && (
+          <div className="text-black text-xl font-medium p-5 right-0 text-right info opacity-0">
+            More works coming soon ...
+          </div>
+        )}
         <Footer />
       </main>
     </>

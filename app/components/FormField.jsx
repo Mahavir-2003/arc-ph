@@ -2,7 +2,17 @@ import React from 'react';
 import { Input, Tooltip } from "@heroui/react";
 import { Info } from "lucide-react";
 
-const FormField = ({ label, name, value, onChange, error, required, type = "text", description }) => {
+const FormField = ({ 
+  label, 
+  name, 
+  value, 
+  onChange, 
+  error, 
+  required, 
+  type = "text", 
+  description,
+  classNames = {} 
+}) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
@@ -24,6 +34,7 @@ const FormField = ({ label, name, value, onChange, error, required, type = "text
           classNames={{
             input: "text-base",
             inputWrapper: "bg-gray-50 hover:bg-gray-100 transition-colors",
+            ...classNames
           }}
         />
         {description && (

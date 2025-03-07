@@ -19,9 +19,15 @@ import Lenis from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Navbar from "./components/Navbar";
-import Crousel from "./components/Crousel";
+import dynamic from 'next/dynamic';
 import Services from "./components/Services";
 import Footer from "./components/Footer";
+import LoadingSpinner from './components/LoadingSpinner';
+
+const Crousel = dynamic(() => import('./components/Crousel'), {
+  loading: () => <LoadingSpinner />,
+  ssr: false
+});
 
 export default function Home() {
   useEffect(() => {

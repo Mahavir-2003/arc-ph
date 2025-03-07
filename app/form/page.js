@@ -9,7 +9,7 @@ import { useToast } from "../hooks/useToast";
 import { Loader2 } from "lucide-react";
 const schema = z.object({
   name: z.string().nonempty("Name is required"),
-  ownerName: z.string().nonempty("Owner's Name is required"),
+  ownerName: z.string().optional(),
   email: z.string().email("Invalid email address"),
   number: z
     .string()
@@ -18,6 +18,7 @@ const schema = z.object({
     .refine((value) => value !== "", {
       message: "Phone number is required",
     }),
+  ownerNumber: z.string().optional(),
   address: z.string().nonempty("Address is required"),
   date: z.string().nonempty("Date is required"),
   time: z.string().nonempty("Time is required"),
@@ -141,12 +142,15 @@ export default function FormPage() {
             required
           />
           <FormField
-            label="Owner's Name"
+            label={<span className="text-gray-500">Owner&apos;s Name (Optional)</span>}
             name="ownerName"
             value={formData.ownerName}
             onChange={handleChange}
             error={errors.ownerName}
-            required
+            classNames={{
+              inputWrapper: "bg-gray-50/50 hover:bg-gray-100/50",
+              input: "text-gray-500"
+            }}
           />
           <FormField
             label="Email"
@@ -167,12 +171,16 @@ export default function FormPage() {
             required
           />
           <FormField
-            label="Owner's Phone Number"
+            label={<span className="text-gray-500">Owner&apos;s Phone Number (Optional)</span>}
             name="ownerNumber"
             type="tel"
             value={formData.ownerNumber}
             onChange={handleChange}
             error={errors.ownerNumber}
+            classNames={{
+              inputWrapper: "bg-gray-50/50 hover:bg-gray-100/50",
+              input: "text-gray-500"
+            }}
           />
           <FormField
             label="Property Address"
@@ -229,7 +237,7 @@ export default function FormPage() {
           >
             {isSubmitting ? "Submitting..." : "Submit"}
           </button>
-          <p className="flex justify-end text-right text-gray-800 inter pt-2">
+          <p className="mt-4 text-sm text-gray-600 text-center">
             Need help?{" "}
             <Link href="mailto:sales@archiphotography.com">
               <span className="text-indigo-600 pl-2">Contact us</span>

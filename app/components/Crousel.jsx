@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { Spinner } from "@heroui/react";
 
 const Crousel = () => {
   const [images, setImages] = useState([]);
@@ -45,7 +46,7 @@ const Crousel = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+        <Spinner size="lg" />
       </div>
     );
   }
@@ -68,10 +69,14 @@ const Crousel = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 image-grid">
-      {images.map((image) => (
+      {images.map((image, index) => (
         <div
           key={image._id}
-          className="w-full h-[30vh] md:h-[50vh] relative overflow-hidden group"
+          className={`w-full ${
+            index === images.length - 1 && images.length % 2 !== 0
+              ? "md:col-span-2 h-[48vh] md:h-[64vh]"
+              : "h-[30vh] md:h-[50vh]"
+          } relative overflow-hidden group`}
         >
           <Link
             href={image.url}

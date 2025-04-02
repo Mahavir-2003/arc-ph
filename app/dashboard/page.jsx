@@ -236,7 +236,7 @@ const Dashboard = () => {
     showToast("Logged out successfully", "success");
   };
 
-  const handleProjectSubmit = async (projectData) => {
+  const handleProjectSubmit = useCallback(async (projectData) => {
     setIsProjectsLoading(true);
     try {
       const newOrder = parseInt(projectData.order);
@@ -305,7 +305,7 @@ const Dashboard = () => {
             : "Project added successfully",
           "success"
         );
-        fetchProjects();
+        await fetchProjects(); // Ensure fetchProjects is awaited
         setEditingProject(null);
       } else {
         const errorData = await response.json();
@@ -327,7 +327,7 @@ const Dashboard = () => {
     } finally {
       setIsProjectsLoading(false);
     }
-  };
+  }, [fetchProjects, editingProject, projects, showToast]);
 
   const handleFixNumbers = async () => {
     if (process.env.NODE_ENV !== 'development') {
